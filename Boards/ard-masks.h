@@ -1,0 +1,26 @@
+// bit masks dfinitions for Arduino connector
+// gbm, 11'2015
+
+#define AR_D0_MASK	(1 << AR_D0_BIT)
+#define AR_D1_MASK	(1 << AR_D1_BIT)
+#define AR_D2_MASK	(1 << AR_D2_BIT)
+#define AR_D3_MASK	(1 << AR_D3_BIT)
+#define AR_D4_MASK	(1 << AR_D4_BIT)
+#define AR_D5_MASK	(1 << AR_D5_BIT)
+#define AR_D6_MASK	(1 << AR_D6_BIT)
+#define AR_D7_MASK	(1 << AR_D7_BIT)
+#define AR_D8_MASK	(1 << AR_D8_BIT)
+#define AR_D9_MASK	(1 << AR_D9_BIT)
+#define AR_D10_MASK	(1 << AR_D10_BIT)
+#define AR_D11_MASK	(1 << AR_D11_BIT)
+#define AR_D12_MASK	(1 << AR_D12_BIT)
+#define AR_D13_MASK	(1 << AR_D13_BIT)
+#define AR_D14_MASK	(1 << AR_D14_BIT)
+#define AR_D15_MASK	(1 << AR_D15_BIT)
+
+#define AR_A0_MASK	(1 << AR_A0_BIT)
+#define AR_A1_MASK	(1 << AR_A1_BIT)
+#define AR_A2_MASK	(1 << AR_A2_BIT)
+#define AR_A3_MASK	(1 << AR_A3_BIT)
+#define AR_A4_MASK	(1 << AR_A4_BIT)
+#define AR_A5_MASK	(1 << AR_A5_BIT)
