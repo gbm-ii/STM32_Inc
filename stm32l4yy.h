@@ -1,8 +1,8 @@
 /*
 	STM32L4 series enhanced defs
-	gbm 03'2016-01'2021
+	gbm 03'2016-07'2021
 
-	Should be included instead of original stm32f4xx.h.
+	To be included instead of the original stm32f4xx.h file.
 */
 
 #ifndef __STM32L4YY_H
@@ -12,12 +12,18 @@
 #include "stm32yyyy.h"	// add defs common to STM32 family
 #include "stm32util.h"
 
-#ifndef FLASH_PAGE_SIZE
-#if defined(STM32L4P5xx) || defined(STM32L4R5xx)
-#define FLASH_PAGE_SIZE	4096
-#else
-#define FLASH_PAGE_SIZE	2048
+#ifdef OCTOSPI1
+#define STM32L4PLUS
 #endif
+
+#ifndef FLASH_PAGE_SIZE
+
+#ifdef STM32L4PLUS
+#define FLASH_PAGE_SIZE	4096u
+#else
+#define FLASH_PAGE_SIZE	2048u
+#endif
+
 #endif
 
 // STM32L4x register/bit defs not present in stm32f4xx.h file
@@ -28,8 +34,8 @@
 
 #define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
 
-#define  RCC_PLLCFGR_PLLMV(v)	(((v - 1) & 7) << 4)	// 2..63
-#define  RCC_PLLCFGR_PLLNV(v)	((v & 0x7f) << 8)	// must be in range 50..432                     ((uint32_t)0x00007FC0)
+#define  RCC_PLLCFGR_PLLMV(v)	(((v - 1) & 7) << 4)	// prediv 1..8 to get 4..16 MHz PLL input
+#define  RCC_PLLCFGR_PLLNV(v)	((v & 0x7f) << 8)	// must be in range 8..86
 #define  RCC_PLLCFGR_PLLRV(v)	((((v >> 1) - 1) & 3) << 25)	// 2, 4, 6, 8
 #define  RCC_PLLCFGR_PLLQV(v)	((((v >> 1) - 1) & 3) << 21)	// 2, 4, 6, 8
 
@@ -68,7 +74,7 @@
 #define TS_CAL2	(*(int16_t *)0x1fff75ca)
 
 #define T_CAL1	30
-#if defined(STM32L412xx) || defined(STM32L496xx) || defined(STM32L4P5xx) || defined(STM32L4R5xx)
+#if defined(STM32L412xx) || defined(STM32L496xx) || defined(STM32L4PLUS)
 // newer models are calibrated at 130
 #define T_CAL2	130
 #else
