@@ -1,5 +1,5 @@
 /*
- * F401 Discovery board defs
+ * F743 Discovery board defs
  * gbm 09'14
  */
  
