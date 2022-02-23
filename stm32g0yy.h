@@ -33,6 +33,12 @@
 
 #define FLASH_SR_BSY	FLASH_SR_BSY1
 #define FLASH_CR_PNBV(v)	((v) << FLASH_CR_PNB_Pos & FLASH_CR_PNB_Msk)
+#define FLASH_UID	((const uint32_t *)UID_BASE)
 
+#define RCC_PLLCFGR_PLLMV(x) (((x) - 1u) << RCC_PLLCFGR_PLLM_Pos & RCC_PLLCFGR_PLLM)
+#define RCC_PLLCFGR_PLLNV(x) ((x) << RCC_PLLCFGR_PLLN_Pos & RCC_PLLCFGR_PLLN)
+#define RCC_PLLCFGR_PLLRV(x) (((x) - 1u) << RCC_PLLCFGR_PLLR_Pos & RCC_PLLCFGR_PLLR)
+
+#define RCC_CFGR_SW_PLLRCLK	2u
 
 #endif
