@@ -13,6 +13,10 @@
 
 // STM32F0x register/bit defs not present in stm32f0xx.h file
 
+#ifndef HSI_VALUE
+#define HSI_VALUE	8000000u
+#endif
+
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
 #define ADC_SMPR_71_5	6
@@ -25,6 +29,7 @@
 
 #define T_CAL1	30
 #define T_CAL2	110
+
 #ifndef FLASH_PAGE_SIZE
 #if defined(STM32F072xB) || defined(STM32F334x8) || defined(STM32F030x8)
 #define FLASH_PAGE_SIZE	2048u
@@ -32,4 +37,5 @@
 #define FLASH_PAGE_SIZE	1024u
 #endif
 #endif
-#endif
+
+#endif	// included
