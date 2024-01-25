@@ -7,7 +7,7 @@
 //========================================================================
 #define BTN_PORT	GPIOC
 #define BTN_BIT		13
-
+#define BTN_MSK		(1u << BTN_BIT)
 #define BTN_DOWN	((~BTN_PORT->IDR >> BTN_BIT & 1))
 
 #define LED_PORT		GPIOA

@@ -59,6 +59,13 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define TIM_CCMR2_OC3M_PWM1	0x0060	// OC3M[2:0] - PWM mode 1
 #define TIM_CCMR2_OC4M_PWM1	0x6000	// OC4M[2:0] - PWM mode 1
 
+#define RCC_CFGR_PLLNV(n) ((n) << RCC_PLLCFGR_PLLN_Pos)
+#define RCC_CFGR_PLLRV(r) (((r) - 1) << RCC_PLLCFGR_PLLR_Pos)
+
+#ifndef RCC_CFGR_SW_PLL
+#define RCC_CFGR_SW_PLL	RCC_CFGR_SW_1
+#endif
+
 #define SPI_CR1_BRSEL(s) ((s) << 3)
 #define SPI_CR1_BRDIV2	SPI_CR1_BRSEL(0)
 #define SPI_CR1_BRDIV4	SPI_CR1_BRSEL(1)
@@ -66,6 +73,7 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define SPI_CR1_BRDIV16	SPI_CR1_BRSEL(3)
 #define SPI_CR1_BRDIV32	SPI_CR1_BRSEL(4)
 #define SPI_CR1_BRDIV64	SPI_CR1_BRSEL(5)
+
 #ifndef	SPI_CR1_DFF
 #define SPI_CR2_DSIZE(s) (((s) - 1) << 8)
 #endif
@@ -82,5 +90,10 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #endif
 
 #define	EXTI_MR_PVD EXTI_RTSR_TR16
+
+static inline void GPIO_Toggle(GPIO_TypeDef * port, uint16_t msk)
+{
+	port->BSRR = (~port->ODR & msk) | msk << 16;
+}
 
 #endif
