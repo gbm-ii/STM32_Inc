@@ -9,6 +9,8 @@
 #ifndef INC_BF_REG_H_
 #define INC_BF_REG_H_
 
+#include <stdint.h>
+
 union bf2_ {
 	struct {
 		uint32_t p0:2, p1:2, p2:2, p3:2, p4:2, p5:2, p6:2, p7:2,

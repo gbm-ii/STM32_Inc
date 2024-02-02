@@ -47,6 +47,8 @@
 
 //#define BRR(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 
+enum afn_ {AFN_USB = 10};
+
 #define  PWR_CR2_PLSV(a)	(((a) & 7) << 1)     /*!< Bit 0 */
 
 //#define	PR	PR1	// EXTI

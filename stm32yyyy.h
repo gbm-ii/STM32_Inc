@@ -14,8 +14,6 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #undef SCB_AIRCR_VECTKEY	// some F10x.h files contain key mask definition instead of key value
 #define SCB_AIRCR_VECTKEY	0x05fa0000
 
-#define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
-
 #define CRS_CFGR_SYNCSRC_LSE	CRS_CFGR_SYNCSRC_0
 #define CRS_CFGR_SYNCSRC_USB	CRS_CFGR_SYNCSRC_1
 
@@ -32,10 +30,12 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GPIO_PUPDR_PU	1u
 #define GPIO_PUPDR_PD	2u
 
+#ifndef GPIO_OSPEEDR_VHI	// skip defs below for H5
 #define GPIO_OSPEEDR_LOW	0
 #define GPIO_OSPEEDR_MED	1u
 #define GPIO_OSPEEDR_FAST	2u
 #define GPIO_OSPEEDR_HI	3u
+#endif
 
 // GPIOA settings for 2-wire SWD
 #define SWCLK_BIT	14
@@ -58,6 +58,8 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define TIM_CCMR1_OC2M_PWM1	0x6000	// OC2M[2:0] - PWM mode 1
 #define TIM_CCMR2_OC3M_PWM1	0x0060	// OC3M[2:0] - PWM mode 1
 #define TIM_CCMR2_OC4M_PWM1	0x6000	// OC4M[2:0] - PWM mode 1
+
+#define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
 
 #define RCC_CFGR_PLLNV(n) ((n) << RCC_PLLCFGR_PLLN_Pos)
 #define RCC_CFGR_PLLRV(r) (((r) - 1) << RCC_PLLCFGR_PLLR_Pos)
