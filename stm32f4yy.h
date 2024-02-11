@@ -28,6 +28,11 @@
 #define  RCC_PLLCFGR_PLLQV(v)	(((v) & 0xf) << RCC_PLLCFGR_PLLQ_Pos)	// 2..15
 #define  RCC_PLLCFGR_PLLRV(v)	(((v) & 0x7) << RCC_PLLCFGR_PLLR_Pos)	// 2..15
 
+#define GPIO_OSPEEDR_LOW	0u
+#define GPIO_OSPEEDR_MED	1u
+#define GPIO_OSPEEDR_HI		2u
+#define GPIO_OSPEEDR_VHI	3u
+
 #define GPIOA_MODER_DEFAULT	0xa8000000	// value speified in RefMan is incorrect!
 #define GPIOA_OSPEEDR_DEFAULT	0x0c000000
 #define GPIOB_MODER_DEFAULT	0x0280

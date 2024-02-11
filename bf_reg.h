@@ -51,6 +51,10 @@ union bf4d_ {
 #define BF4_(a)	(*(volatile union bf4_ *)&(a))
 #define BF4F(a,b) (*(volatile union bf4_ *)&(a)).PIN(b)
 
+// AFR register access
+#define AFRF(p,b) (((volatile union bf4_ *)(p->AFR))[(b) / 8]).PIN(b)
+
+
 union dma_cselr_ {
 	struct {
 		uint32_t c1s:4, c2s:4, c3s:4, c4s:4, c5s:4, c6s:4, c7s:4;

@@ -13,7 +13,7 @@
 #define BF5(b,v)	((uint32_t)(v) << (((b) % 6) * 5))
 #define BF6(b,v)	((uint32_t)(v) << (((b) % 5) * 6))
 #define BF8(b,v)	((uint32_t)(v) << (((b) & 3) * 8))
-// bit fields to be ANDed (for STM32L series MODER)
+// bit fields to be ANDed (for STM32L/H/G/U series MODER)
 #define BF2A(b,v)	((uint32_t)(v) << (((b) & 0xf) * 2) | ~(3u << (((b) & 0xf) * 2)))
 #define BF4A(b,v)	((uint32_t)(v) << (((b) & 7) * 4) | ~(0xfu << (((b) & 7) * 4)))
 

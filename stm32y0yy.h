@@ -25,7 +25,7 @@
 #define ADC_SMPR_71_5	6
 #define ADC_SMPR_239_5	7	// 17 us @ 14 MHz - for TS
 
-// Calibration values stored in ROM - moved to F/L series-specific
+// Calibration values stored in ROM - moved to series-specific file
 //#define VREFINT_CAL	(*(uint16_t *)0x1ffff7ba)
 //#define TS_CAL1	(*(uint16_t *)0x1ffff7b8)
 //#define TS_CAL2	(*(uint16_t *)0x1ffff7c2)

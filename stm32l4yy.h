@@ -45,6 +45,11 @@
 #define GPIOA_PUPDR_DEFAULT	0x64000000
 #define GPIOB_PUPDR_DEFAULT	0x100
 
+#define GPIO_OSPEEDR_LOW	0u
+#define GPIO_OSPEEDR_MED	1u
+#define GPIO_OSPEEDR_HI		2u
+#define GPIO_OSPEEDR_VHI	3u
+
 //#define BRR(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 
 enum afn_ {AFN_USB = 10};

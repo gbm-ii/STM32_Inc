@@ -14,6 +14,13 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #undef SCB_AIRCR_VECTKEY	// some F10x.h files contain key mask definition instead of key value
 #define SCB_AIRCR_VECTKEY	0x05fa0000
 
+// convert Vrefint ADC readout to power supply voltage value
+#define GET_Vdd_mV(x)	(VREFINT_CAL * VREFINT_CAL_mV / (x))
+
+// analog temperature sensor calibration temperatures
+#define T_CAL1	30
+#define T_CAL2	110
+
 #define CRS_CFGR_SYNCSRC_LSE	CRS_CFGR_SYNCSRC_0
 #define CRS_CFGR_SYNCSRC_USB	CRS_CFGR_SYNCSRC_1
 
@@ -30,12 +37,13 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GPIO_PUPDR_PU	1u
 #define GPIO_PUPDR_PD	2u
 
-#ifndef GPIO_OSPEEDR_VHI	// skip defs below for H5
-#define GPIO_OSPEEDR_LOW	0
-#define GPIO_OSPEEDR_MED	1u
-#define GPIO_OSPEEDR_FAST	2u
-#define GPIO_OSPEEDR_HI	3u
-#endif
+// OSPEEDR defs are series-specific!
+//#ifndef GPIO_OSPEEDR_VHI	// skip defs below for H5
+//#define GPIO_OSPEEDR_LOW	0u
+//#define GPIO_OSPEEDR_MED	1u
+//#define GPIO_OSPEEDR_FAST	2u
+//#define GPIO_OSPEEDR_HI	3u
+//#endif
 
 // GPIOA settings for 2-wire SWD
 #define SWCLK_BIT	14
@@ -45,7 +53,7 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GPIOA_PUPDR_SWD	(BF2(SWCLK_BIT, GPIO_PUPDR_PD) | BF2(SWDIO_BIT, GPIO_PUPDR_PU)) // SWD CLK->PD, DIO->PU
 #define GPIOA_OSPEEDR_SWD	(BF2(SWDIO_BIT, GPIO_OSPEEDR_HI))	// SWDIO
 
-#define  PWR_CR_PLSV(a)	(((a) & 7) << 5)
+#define PWR_CR_PLSV(a)	(((a) & 7) << 5)
 
 #define DMA_CCR_MSIZE16	DMA_CCR_MSIZE_0
 #define DMA_CCR_MSIZE32	DMA_CCR_MSIZE_1
@@ -59,13 +67,12 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define TIM_CCMR2_OC3M_PWM1	0x0060	// OC3M[2:0] - PWM mode 1
 #define TIM_CCMR2_OC4M_PWM1	0x6000	// OC4M[2:0] - PWM mode 1
 
-#define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
-
-#define RCC_CFGR_PLLNV(n) ((n) << RCC_PLLCFGR_PLLN_Pos)
-#define RCC_CFGR_PLLRV(r) (((r) - 1) << RCC_PLLCFGR_PLLR_Pos)
+//#define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
+//#define RCC_CFGR_PLLNV(n) ((n) << RCC_PLLCFGR_PLLN_Pos)
+//#define RCC_CFGR_PLLRV(r) (((r) - 1) << RCC_PLLCFGR_PLLR_Pos)
 
 #ifndef RCC_CFGR_SW_PLL
-#define RCC_CFGR_SW_PLL	RCC_CFGR_SW_1
+//#define RCC_CFGR_SW_PLL	RCC_CFGR_SW_1
 #endif
 
 #define SPI_CR1_BRSEL(s) ((s) << 3)
