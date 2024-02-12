@@ -11,8 +11,6 @@
 #include "stm32l5xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
 
-#endif
-
 // STM32L4x register/bit defs not present in stm32f4xx.h file
 
 #define FLASH_CR_PNBV(v)	(((v) & 0x1ff) << 3)
@@ -21,10 +19,18 @@
 
 #define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
 
-#define  RCC_PLLCFGR_PLLMV(v)	(((v - 1) & 7) << 4)	// prediv 1..8 to get 4..16 MHz PLL input
-#define  RCC_PLLCFGR_PLLNV(v)	((v & 0x7f) << 8)	// must be in range 8..86
-#define  RCC_PLLCFGR_PLLRV(v)	((((v >> 1) - 1) & 3) << 25)	// 2, 4, 6, 8
-#define  RCC_PLLCFGR_PLLQV(v)	((((v >> 1) - 1) & 3) << 21)	// 2, 4, 6, 8
+#define  RCC_PLLCFGR_PLLMV(v)	(((v - 1) & 0xf) << RCC_PLLCFGR_PLLM_Pos)	// prediv 1..16 to get 4..16 MHz PLL input
+#define  RCC_PLLCFGR_PLLNV(v)	((v & 0x7f) << RCC_PLLCFGR_PLLN_Pos)	// must be in range 8..86
+#define  RCC_PLLCFGR_PLLRV(v)	((((v >> 1) - 1) & 3) << RCC_PLLCFGR_PLLR_Pos)	// 2, 4, 6, 8
+#define  RCC_PLLCFGR_PLLQV(v)	((((v >> 1) - 1) & 3) << RCC_PLLCFGR_PLLQ_Pos)	// 2, 4, 6, 8
+
+#define	RCC_PLLCFGR_PLLSRC_MSI	RCC_PLLCFGR_PLLSRC_0
+#define CRS_CFGR_SYNCSRC_USB	CRS_CFGR_SYNCSRC_1
+#undef	RCC_CFGR_SW_PLL
+#define RCC_CFGR_SW_PLL			(RCC_CFGR_SW_1 | RCC_CFGR_SW_0)
+
+enum afn_ {AFN_TIM1 = 1, AFN_I2C = 4, AFN_SPI, AFN_SPI3, AFN_USART = 7,
+	AFN_UART4, AFN_USB = 10};
 
 #define GPIOA_MODER_DEFAULT	0xabffffff	// ok, not needed
 #define GPIOA_OSPEEDR_DEFAULT	0x0c000000	// ok
@@ -38,8 +44,6 @@
 #define GPIO_OSPEEDR_VHI	3u
 
 //#define BRR(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
-
-enum afn_ {AFN_USB = 10};
 
 #define  PWR_CR2_PLSV(a)	(((a) & 7) << 1)     /*!< Bit 0 */
 
@@ -112,5 +116,5 @@ enum adc_smpt_ {ADC_SMPT_2, ADC_SMPT_6, ADC_SMPT_12, ADC_SMPT_24, ADC_SMPT_47, A
 #define	OCTOSPI_CR_FMODE_AP	(2u << OCTOSPI_CR_FMODE_Pos)
 #define	OCTOSPI_CR_FMODE_MM	(3u << OCTOSPI_CR_FMODE_Pos)
 
-#define OCTOSPI_FCR_CTOF	OCTOSPI_FCR_TOF	// correct header file error
+//#define OCTOSPI_FCR_CTOF	OCTOSPI_FCR_TOF	// correct header file error
 #endif

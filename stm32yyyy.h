@@ -18,9 +18,6 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GET_Vdd_mV(x)	(VREFINT_CAL * VREFINT_CAL_mV / (x))
 
 // analog temperature sensor calibration temperatures
-#define T_CAL1	30
-#define T_CAL2	110
-
 #define CRS_CFGR_SYNCSRC_LSE	CRS_CFGR_SYNCSRC_0
 #define CRS_CFGR_SYNCSRC_USB	CRS_CFGR_SYNCSRC_1
 
