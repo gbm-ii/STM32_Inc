@@ -8,6 +8,7 @@
 #ifndef __STM32U5YY_H
 #define __STM32U5YY_H
 
+#include <stdbool.h>
 #include "stm32u5xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
 //#include "stm32util.h"
@@ -28,6 +29,11 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define	RCC_PLLxCFGR_PLLxSRC_HSE	RCC_PLL1CFGR_PLL1SRC
 
 #define RCC_CFGR1_SW_PLL1	RCC_CFGR1_SW
+
+#define IOENR	AHB2ENR1	// IO port enable register alias
+
+#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+#define RCC_IOENR_GPIOEN(p) ( (RCC_AHB2ENR1_GPIOAEN) << GPIOIDX(p) )
 
 #define  PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 

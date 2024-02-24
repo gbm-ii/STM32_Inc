@@ -42,6 +42,11 @@
 #define GPIO_OSPEEDR_HI		2u
 #define GPIO_OSPEEDR_VHI	3u
 
+#define IOENR	IOPENR	// IO port enable register alias
+
+#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+#define RCC_IOENR_GPIOEN(p) ( (RCC_IOPENR_GPIOAEN) << GPIOIDX(p) )
+
 #define RCC_PLLCFGR_PLLMV(x) (((x) - 1u) << RCC_PLLCFGR_PLLM_Pos & RCC_PLLCFGR_PLLM)
 #define RCC_PLLCFGR_PLLNV(x) ((x) << RCC_PLLCFGR_PLLN_Pos & RCC_PLLCFGR_PLLN)
 #define RCC_PLLCFGR_PLLQV(x) (((x) - 1u) << RCC_PLLCFGR_PLLQ_Pos & RCC_PLLCFGR_PLLQ)

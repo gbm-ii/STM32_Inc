@@ -6,7 +6,7 @@
 #ifndef __STM32F0YY_H
 #define __STM32F0YY_H
 
-#include "stm32f10x.h"
+#include "stm32f1xx.h"
 #include "stm32yyyy.h"
 #include "stm32util.h"
 
@@ -15,6 +15,7 @@
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
 // copied from F0 header to avoid CCRx
+#ifndef DMA_CCR_EN
 /*******************  Bit definition for DMA_CCR register  ********************/
 #define  DMA_CCR_EN                          ((uint32_t)0x00000001)        /*!< Channel enable                      */
 #define  DMA_CCR_TCIE                        ((uint32_t)0x00000002)        /*!< Transfer complete interrupt enable  */
@@ -38,6 +39,7 @@
 #define  DMA_CCR_PL_1                        ((uint32_t)0x00002000)        /*!< Bit 1                               */
 
 #define  DMA_CCR_MEM2MEM                     ((uint32_t)0x00004000)        /*!< Memory to memory mode               */
+#endif
 //========================================================================
 //#define GPIO_CR_MODE_IN	0u
 //#define GPIO_CR_MODE_OUTS	1u

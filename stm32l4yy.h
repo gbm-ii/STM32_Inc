@@ -8,6 +8,7 @@
 #ifndef __STM32L4YY_H
 #define __STM32L4YY_H
 
+#include <stdbool.h>
 #include "stm32l4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
 #include "stm32util.h"
@@ -49,6 +50,11 @@
 #define GPIO_OSPEEDR_MED	1u
 #define GPIO_OSPEEDR_HI		2u
 #define GPIO_OSPEEDR_VHI	3u
+
+#define IOENR	AHB2ENR	// IO port enable register alias
+
+#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+#define RCC_IOENR_GPIOEN(p) ( (RCC_AHB2ENR_GPIOAEN) << GPIOIDX(p) )
 
 //#define BRR(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 

@@ -6,6 +6,7 @@
 #ifndef __STM32F0YY_H
 #define __STM32F0YY_H
 
+#include <stdbool.h>
 #include "stm32f0xx.h"
 #include "stm32y0yy.h"
 #include "stm32yyyy.h"
