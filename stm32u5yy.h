@@ -38,8 +38,15 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define  PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 
 // Calibration values stored in ROM
-#define VREFINT_mV	3300u
-#define VREFINT_CAL	(*(uint16_t *)0x08fff810)	// @ 3.3V
+//#define VREFINT_mV	3300u
+//#define VREFINT_CAL	(*(uint16_t *)0x08fff810)	// @ 3.3V
+// 14-bit cal values
+#define VREFINT_mV	3000u
+#define VREFINT_CAL	(*(uint16_t *)0x0bfa07a5)	// @ 3.0V
+#define TS_CAL1	(*(uint16_t *)0x0bfa0710)	// @ 3.0V
+#define TS_CAL1	(*(uint16_t *)0x0bfa0742)	// @ 3.0V
+#define T_CAL1	30u
+#define T_CAL2	130u
 
 #define ADCH_VREF	17
 
