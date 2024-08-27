@@ -20,6 +20,10 @@
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
+#define GPIO_OSPEEDR_LOW	0u
+#define GPIO_OSPEEDR_MED	1u
+#define GPIO_OSPEEDR_HI	3u
+
 #define ADC_SMPR_71_5	6
 #define ADC_SMPR_239_5	7	// 17 us @ 14 MHz - for TS
 
