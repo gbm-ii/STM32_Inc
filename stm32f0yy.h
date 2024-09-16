@@ -20,6 +20,8 @@
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
+#define RCC_IOENR_GPIOEN(p) ( (RCC_AHBENR_GPIOAEN) << GPIOIDX(p) )
+
 #define GPIO_OSPEEDR_LOW	0u
 #define GPIO_OSPEEDR_MED	1u
 #define GPIO_OSPEEDR_HI	3u
@@ -42,5 +44,14 @@
 #define FLASH_PAGE_SIZE	1024u
 #endif
 #endif
+
+#if defined(STM32F042x6)
+#define BOOTVEC ((union vectab_ *)0x1fffc4000)
+#endif
+#if defined(STM32F072xB)
+#define BOOTVEC ((union vectab_ *)0x1fffc8000)
+#endif
+
+enum afn_ {AFN_SPI, AFN_USART12, AFN_TIM3 = AFN_USART12, AFN_I2C1 = AFN_USART12, AFN_TIM12, AFN_TSC, AFN_USART34, AFN_TIM1X};
 
 #endif	// included

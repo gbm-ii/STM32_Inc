@@ -50,6 +50,8 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GPIOA_PUPDR_SWD	(BF2(SWCLK_BIT, GPIO_PUPDR_PD) | BF2(SWDIO_BIT, GPIO_PUPDR_PU)) // SWD CLK->PD, DIO->PU
 #define GPIOA_OSPEEDR_SWD	(BF2(SWDIO_BIT, GPIO_OSPEEDR_HI))	// SWDIO
 
+#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+
 #define PWR_CR_PLSV(a)	(((a) & 7) << 5)
 
 #define DMA_CCR_MSIZE16	DMA_CCR_MSIZE_0
@@ -101,5 +103,16 @@ static inline void GPIO_Toggle(GPIO_TypeDef * port, uint16_t msk)
 {
 	port->BSRR = (~port->ODR & msk) | msk << 16;
 }
+
+union vectab_ {
+	struct {
+		uint32_t Initial_SP;
+	    void (*Reset_Handler)(void);
+	};
+	struct {
+		void (*Core_Exception[16])(void);
+		void (*NVIC_Interrupt[32])(void);
+	};
+};
 
 #endif
