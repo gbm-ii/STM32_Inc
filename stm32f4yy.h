@@ -41,6 +41,10 @@
 //#define GPIOA_PUPDR_SWD	0x24000000
 
 #define BSRRH(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
+// RCC GPIO enable =======================================================
+#define IOENR	AHB1ENR	// IO port enable register alias
+#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+#define RCC_IOENR_GPIOEN(p) ( (RCC_AHB1ENR_GPIOAEN) << GPIOIDX(p) )
 
 #define  PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 
