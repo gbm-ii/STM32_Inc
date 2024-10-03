@@ -27,6 +27,8 @@
 #define ADCH_VREFINT	13u
 #define ADCH_VBAT3	14u
 
+#define BOOT_ADDR	0x1fff0000	// System ROM bootloader
+
 // Calibration values stored in ROM
 #define VREFINT_CAL_mV	3000u	// calibration voltage
 #define VREFINT_CAL	(*(uint16_t *)0x1fff75aa)
