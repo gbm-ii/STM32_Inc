@@ -12,7 +12,7 @@
 #define BTN_BIT		13
 #define BTN_MSK		(1u << BTN_BIT)
 
-#if defined(STM32G0) || defined(STM32G4) || defined(STM32C0) || defined (STM32U5)
+#if defined(STM32G0) || defined(STM32G4) || defined(STM32H5) || defined(STM32U5)
 // user button active high
 #define BTN_DOWN	((BTN_PORT->IDR >> BTN_BIT & 1u))
 #else
@@ -31,7 +31,7 @@
 #define LED_MSK	LEDG_MSK
 #define LED_DUTY	LEDG_DUTY
 
-#ifdef (STM32C071xx)
+#ifdef STM32C071xx
 // blue LED, active low - PC9 on Nucleo-C071
 #define LEDB_PORT		GPIOA
 #define LEDB_BIT	5
