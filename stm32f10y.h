@@ -14,6 +14,8 @@
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
+#define RCC_IOENR_GPIOEN(p) ( (RCC_APB2ENR_IOPAEN) << GPIOIDX(p) )
+
 // copied from F0 header to avoid CCRx
 #ifndef DMA_CCR_EN
 /*******************  Bit definition for DMA_CCR register  ********************/

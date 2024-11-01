@@ -53,6 +53,8 @@ union bf4d_ {
 
 // AFR register access
 #define AFRF(p,b) (((volatile union bf4_ *)(p->AFR))[(b) / 8]).PIN(b)
+// CRL/CRH register access for STM32F1
+#define CRF(p,b) (((volatile union bf4_ *)&(p->CRL))[(b) / 8]).PIN(b)
 
 
 union dma_cselr_ {

@@ -5,8 +5,8 @@
  *      Author: gbm
  */
 
-#ifndef INC_F103BLUEPILLPLUS_H_
-#define INC_F103BLUEPILLPLUS_H_
+#ifndef INC_F103BLUEPILL_H_
+#define INC_F103BLUEPILL_H_
 
 #ifdef BLUEPILLPLUS
 
@@ -14,7 +14,7 @@
 #define BTN_PORT	GPIOA
 #define BTN_BIT		0
 #define BTN_MSK	(1u << BTN_BIT)
-#define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)
+#define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)	// active high
 // LED ===================================================================
 #define LED_PORT	GPIOB
 #define LED_BIT	2	// active HIGH
