@@ -36,14 +36,28 @@ static inline void disable_unpend_all_ints(void)
 	}
 }
 
-static inline void app_start(uint32_t addr)
-{
-	// at this point all interrupts must be disabled (NVIC, SysTick)
-	SCB->VTOR = addr;
-	struct cm_init_ {
+struct cm_init_ {
+	uint32_t Init_SP;
+	void (*Reset_Handler)(void);
+};
+
+union cm0_vectab_ {
+	struct {
 		uint32_t Init_SP;
 		void (*Reset_Handler)(void);
 	};
+	struct {
+		void (*CoreExcHandler[16])(void);
+		void (*IRQHandler[32])(void);
+	};
+};
+
+static inline void app_start(uint32_t addr)
+{
+	// at this point all interrupts must be disabled (NVIC, SysTick)
+#ifdef __VTOR_PRESENT
+	SCB->VTOR = addr;
+#endif
 	struct cm_init_ *app_init = (struct cm_init_ *) addr;
 	__set_MSP(app_init->Init_SP);
 

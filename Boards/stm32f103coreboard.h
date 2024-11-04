@@ -14,6 +14,8 @@
 #define LED_PORT	GPIOA
 #define LED_BIT	1	// active LOW
 #define LED_MSK	(1u << LED_BIT)
+#define LED_TIM	TIM2
+#define LED_TIM_IRQn	TIM2_IRQn
 #define LED_DUTY	TIM2->CCR2
 #define LED_ON	(LED_PORT->BRR = LED_MSK)
 #define LED_OFF	(LED_PORT->BSRR = LED_MSK)
