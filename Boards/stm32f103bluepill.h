@@ -1,5 +1,5 @@
 /*
- * F103BluePillPlus.h
+ * STM32F103BluePill.h
  *
  *  Created on: 12 gru 2020
  *      Author: gbm
