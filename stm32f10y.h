@@ -105,8 +105,11 @@ union gpio_cr_ {
 
 #define	AFIO_MAPR_SWD	(2u << 24)	// SWD only, no JTAG
 
-#define ADC_SMPR_71_5	6
-#define ADC_SMPR_239_5	7	// 17 us @ 14 MHz - for TS
+#define ADC_SMPT_28_5	3u
+#define ADC_SMPT_41_5	4u
+#define ADC_SMPT_55_5	5u
+#define ADC_SMPT_71_5	6u
+#define ADC_SMPT_239_5	7u	// 17 us @ 14 MHz - for TS
 
 // Calibration values stored in ROM
 #define VREFINT_CAL	(*(uint16_t *)0x1ffff7ba)
