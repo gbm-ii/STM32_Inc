@@ -44,7 +44,7 @@ struct cm_init_ {
 
 // General Cortex-M vector table with variable no. of IRQ vectors
 struct cm_vectable_ {
-	void *Init_SP;
+	uint32_t Init_SP;
 	void (*Reset_Handler)(void);
 	void (*NMI_Handler)(void);
 	void (*HardFault_Handler)(void);
@@ -65,7 +65,7 @@ struct cm_vectable_ {
 
 // Cortex-M0, M0+ vector table with 32 IRQ vectors
 struct cm0_vectable_ {
-	void *Init_SP;
+	uint32_t Init_SP;
 	void (*Reset_Handler)(void);
 	void (*NMI_Handler)(void);
 	void (*HardFault_Handler)(void);
