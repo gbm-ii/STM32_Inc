@@ -24,6 +24,8 @@ static inline void disable_all_ints(void)
 		NVIC->ICER[i] = 0;
 }
 
+// ICTR values F401:2
+
 static inline void disable_unpend_all_ints(void)
 {
 	SysTick->CTRL = 0;
@@ -69,16 +71,9 @@ struct cm0_vectable_ {
 	void (*Reset_Handler)(void);
 	void (*NMI_Handler)(void);
 	void (*HardFault_Handler)(void);
-	void (*MemManage_Handler)(void);	// v7; unused in CM0
-	void (*BusFault_Handler)(void);		// v7; unused in CM0
-	void (*UsageFault_Handler)(void);	// v7; unused in CM0
-	void (*SecureFault_Handler)(void);	// v8; unused below CM23
-	void (*Exc8_Handler)(void);
-	void (*Exc9_Handler)(void);
-	void (*Exc10_Handler)(void);
+	uint32_t unused4[7];
 	void (*SVC_Handler)(void);
-	void (*DebugMon_Handler)(void);		// v7; unused in CM0
-	void (*Exc13_Handler)(void);
+	uint32_t unused12[2];
 	void (*PendSV_Handler)(void);
 	void (*SysTick_Handler)(void);
     void (*NVIC_Interrupt[32])(void);
