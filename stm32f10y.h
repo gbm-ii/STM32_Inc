@@ -3,10 +3,10 @@
 	gbm 01'2016
 */
 
-#ifndef __STM32F0YY_H
-#define __STM32F0YY_H
+#ifndef __STM32F10Y_H
+#define __STM32F10Y_H
 
-#include "stm32f1xx.h"
+#include "stm32f10x.h"
 #include "stm32yyyy.h"
 #include "stm32util.h"
 

@@ -8,13 +8,13 @@
 //========================================================================
 // CPX on PB6..9
 #define CPX_PORT GPIOB
-#define CPX_LED0_BIT 6
+#define CPX_LED0_BIT 6	// LD4 A (leftmost)
 #define CPX_LED0_MSK (1u << CPX_LED0_BIT)
 #define CPX_LED1_BIT 7
 #define CPX_LED1_MSK (1u << CPX_LED1_BIT)
 #define CPX_LED2_BIT 8
 #define CPX_LED2_MSK (1u << CPX_LED2_BIT)
-#define CPX_LED3_BIT 9
+#define CPX_LED3_BIT 9	// LD1 A (rightmost)
 #define CPX_LED3_MSK (1u << CPX_LED3_BIT)
 
 #define CPX_BSRR_OFF	((CPX_LED0_MSK | CPX_LED1_MSK | CPX_LED2_MSK | CPX_LED3_MSK) << 16)
@@ -34,10 +34,10 @@
 #define SEG_DP_MSK (1u << 7)
 #define SEG_MSK 0xffu
 
-#define DIG0_MSK (1u << 8)
+#define DIG0_MSK (1u << 8)	// rightmost digit
 #define DIG1_MSK (1u << 9)
 #define DIG2_MSK (1u << 10)
-#define DIG3_MSK (1u << 11)
+#define DIG3_MSK (1u << 11)	// leftmost digit
 #define DIG_MSK (0xfu << 8)
 #define LEDMpx_DigMask	DIG_MSK
 
@@ -59,12 +59,16 @@
 #define DigAct(x)	((x) << LEDMpx_DigOnShift | (DIG_MSK ^ (x)) << LEDMpx_DigOffShift)
 #define SegAct(x)	((x) << LEDMpx_SegOnShift | (SEG_MSK ^ (x)) << LEDMpx_SegOffShift)
 
-// OneWire - hardware control possible using TIM3CH1
+// OneWire - hardware control possible using TIM3CH1 (no UART connection)
 #define OW_PORT	GPIOB
 #define	OW_BIT	4
 #define OW_MSK	(1u << OW_BIT)
+#define OW_TIM	TIM3
+#define OW_OUT_CCR	OW_TIM->CCR1
+#define OW_IN_CCR	OW_TIM->CCR2
 
 // TWI(I2C) on PB10, PB11
+#define LPS25_I2C	I2C2
 //========================================================================
 // SPI on PB3, PA4, PA6, PA7
 #define LIS35_NSS_PORT	GPIOA
