@@ -45,12 +45,17 @@
 #endif
 #endif
 
-#if defined(STM32F042x6)
-#define BOOTVEC ((union vectab_ *)0x1fffc4000)
+#if defined STM32F042x6
+#define BOOT_ADDR 0x1fffc400u
 #endif
-#if defined(STM32F072xB)
-#define BOOTVEC ((union vectab_ *)0x1fffc8000)
+#if defined STM32F072xB
+#define BOOT_ADDR 0x1fffc800u
 #endif
+
+#define BOOTVEC ((union vectab_ *)BOOT_ADDR)
+
+#define SYSCFG_CFGR1_MEM_SYS	1u
+#define SYSCFG_CFGR1_MEM_RAM	3u
 
 enum afn_ {AFN_SPI, AFN_USART12, AFN_TIM3 = AFN_USART12, AFN_I2C1 = AFN_USART12, AFN_TIM12, AFN_TSC, AFN_USART34, AFN_TIM1X};
 
