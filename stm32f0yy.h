@@ -10,8 +10,6 @@
 #include "stm32f0xx.h"
 #include "stm32y0yy.h"
 #include "stm32yyyy.h"
-#include "stm32util.h"
-
 // STM32F0x register/bit defs not present in stm32f0xx.h file
 
 #ifndef HSI_VALUE
@@ -20,6 +18,7 @@
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
+#define IOENR	AHBENR	// RCC register containing GPIO enable bits
 #define RCC_IOENR_GPIOEN(p) ( (RCC_AHBENR_GPIOAEN) << GPIOIDX(p) )
 
 #define GPIO_OSPEEDR_LOW	0u
@@ -58,5 +57,7 @@
 #define SYSCFG_CFGR1_MEM_RAM	3u
 
 enum afn_ {AFN_SPI, AFN_USART12, AFN_TIM3 = AFN_USART12, AFN_I2C1 = AFN_USART12, AFN_TIM12, AFN_TSC, AFN_USART34, AFN_TIM1X};
+
+#include "stm32util.h"
 
 #endif	// included

@@ -93,4 +93,6 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1_2, AFN_USART6,
 #define RCC_CFGR_SW_PLLRCLK	2u
 #define RCC_CFGR_SW_LSI		3u
 
+#include "stm32util.h"
+
 #endif

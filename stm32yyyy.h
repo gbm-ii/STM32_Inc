@@ -1,8 +1,8 @@
 /*
-	STM32F series common enhanced defs
+	STM32 series common enhanced defs
 	gbm 09'2014
 
-	Should be included after stm32fXxx.h.
+	Should be included after stm32XXxx.h.
 */
 
 #ifndef __STM32YYYY_H
@@ -10,16 +10,17 @@
 
 typedef __IO uint32_t * __IO32p;	// short type name
 //========================================================================
-// STM32Fxxx register/bit defs not present in stm32fxxx.h file
+// STM32xxxx register/bit defs not present in stm32xxxx.h file
 #undef SCB_AIRCR_VECTKEY	// some F10x.h files contain key mask definition instead of key value
 #define SCB_AIRCR_VECTKEY	0x05fa0000
 
 // convert Vrefint ADC readout to power supply voltage value
 #define GET_Vdd_mV(x)	(VREFINT_CAL * VREFINT_CAL_mV / (x))
 
-// analog temperature sensor calibration temperatures
 #define CRS_CFGR_SYNCSRC_LSE	CRS_CFGR_SYNCSRC_0
 #define CRS_CFGR_SYNCSRC_USB	CRS_CFGR_SYNCSRC_1
+// GPIO ==================================================================
+#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 
 #define GPIO_MODER_IN	0u
 #define GPIO_MODER_OUT	1u
@@ -34,14 +35,6 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GPIO_PUPDR_PU	1u
 #define GPIO_PUPDR_PD	2u
 
-// OSPEEDR defs are series-specific!
-//#ifndef GPIO_OSPEEDR_VHI	// skip defs below for H5
-//#define GPIO_OSPEEDR_LOW	0u
-//#define GPIO_OSPEEDR_MED	1u
-//#define GPIO_OSPEEDR_FAST	2u
-//#define GPIO_OSPEEDR_HI	3u
-//#endif
-
 // GPIOA settings for 2-wire SWD
 #define SWCLK_BIT	14
 #define SWDIO_BIT	13
@@ -49,8 +42,6 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GPIOA_MODER_SWDA	(BF2(SWCLK_BIT, GPIO_MODER_AF) | BF2(SWDIO_BIT, GPIO_MODER_AF) | 0xc3ffffffu) // keep SWD pins only
 #define GPIOA_PUPDR_SWD	(BF2(SWCLK_BIT, GPIO_PUPDR_PD) | BF2(SWDIO_BIT, GPIO_PUPDR_PU)) // SWD CLK->PD, DIO->PU
 #define GPIOA_OSPEEDR_SWD	(BF2(SWDIO_BIT, GPIO_OSPEEDR_HI))	// SWDIO
-
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 
 #define PWR_CR_PLSV(a)	(((a) & 7) << 5)
 
@@ -65,14 +56,6 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define TIM_CCMR1_OC2M_PWM1	0x6000	// OC2M[2:0] - PWM mode 1
 #define TIM_CCMR2_OC3M_PWM1	0x0060	// OC3M[2:0] - PWM mode 1
 #define TIM_CCMR2_OC4M_PWM1	0x6000	// OC4M[2:0] - PWM mode 1
-
-//#define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
-//#define RCC_CFGR_PLLNV(n) ((n) << RCC_PLLCFGR_PLLN_Pos)
-//#define RCC_CFGR_PLLRV(r) (((r) - 1) << RCC_PLLCFGR_PLLR_Pos)
-
-#ifndef RCC_CFGR_SW_PLL
-//#define RCC_CFGR_SW_PLL	RCC_CFGR_SW_1
-#endif
 
 #define SPI_CR1_BRSEL(s) ((s) << 3)
 #define SPI_CR1_BRDIV2	SPI_CR1_BRSEL(0)
@@ -89,6 +72,7 @@ typedef __IO uint32_t * __IO32p;	// short type name
 // byte access to SPI DR - MUST be __IO (= volatile)!
 #define SPI1_DRB	(*(__IO uint8_t *)&SPI1->DR)
 #define SPI2_DRB	(*(__IO uint8_t *)&SPI2->DR)
+#define SPI2_DRB	(*(__IO uint8_t *)&SPI2->DR)
 #define QUADSPI_DRB	(*(__IO uint8_t *)&QUADSPI->DR)
 
 #ifndef FLASH_FKEY1
@@ -98,21 +82,5 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #endif
 
 #define	EXTI_MR_PVD EXTI_RTSR_TR16
-
-static inline void GPIO_Toggle(GPIO_TypeDef * port, uint16_t msk)
-{
-	port->BSRR = (~port->ODR & msk) | msk << 16;
-}
-
-union vectab_ {
-	struct {
-		uint32_t Initial_SP;
-	    void (*Reset_Handler)(void);
-	};
-	struct {
-		void (*Core_Exception[16])(void);
-		void (*NVIC_Interrupt[32])(void);
-	};
-};
 
 #endif

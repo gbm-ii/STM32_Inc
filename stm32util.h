@@ -24,14 +24,34 @@
 //========================================================================
 #define IRQn(n)	(n##_IRQn)
 #define IRQHandler(n)	(n##_IRQHandler)
-//========================================================================
+// UART BRR register value calc ==========================================
+static inline uint16_t BRR_value(uint32_t uart_clk, uint32_t baudrate)
+{
+	uint16_t brr = (uart_clk + baudrate / 2) / baudrate;
+	if (brr < 16u)
+		brr = 16u;
+	else if (brr > 0xfff7)
+		brr = 0xfff7;		// undocumented! - the maximum valid BRR value
+	return brr;
+}
+// GPIO utilities ========================================================
+static inline void GPIO_PortEnable(GPIO_TypeDef *port)
+{
+	RCC->IOENR |= RCC_IOENR_GPIOEN(port);
+}
+
+static inline void GPIO_PinToggle(GPIO_TypeDef *port, uint16_t mask)
+{
+	port->BSRR = mask << 16 | (~port->ODR & mask);
+}
+// deprecated stuff ======================================================
 // register init structure and routine
 struct init_entry_ {
 	volatile uint32_t *loc;
 	uint32_t value;
 };
 
-static __INLINE void writeregs(const struct init_entry_ *p)
+static inline void writeregs(const struct init_entry_ *p)
 {
 	for (; p->loc; p ++)
 		*p->loc = p->value;
