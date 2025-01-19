@@ -8,12 +8,12 @@
 
 #include "stm32f10x.h"
 #include "stm32yyyy.h"
-#include "stm32util.h"
 
 // STM32F10x register/bit defs not present in stm32f1xx.h file
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
+#define IOENR	APB2ENR
 #define RCC_IOENR_GPIOEN(p) ( (RCC_APB2ENR_IOPAEN) << GPIOIDX(p) )
 
 // copied from F0 header to avoid CCRx
@@ -119,4 +119,5 @@ union gpio_cr_ {
 #define T_CAL1	30
 #define T_CAL2	110
 
+#include "stm32util.h"
 #endif

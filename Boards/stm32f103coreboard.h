@@ -13,6 +13,7 @@
 // LED ===================================================================
 #define LED_PORT	GPIOA
 #define LED_BIT	1	// active LOW
+#define LED_ACTIVE_LEVEL	0
 #define LED_MSK	(1u << LED_BIT)
 #define LED_TIM	TIM2
 #define LED_TIM_IRQn	TIM2_IRQn
