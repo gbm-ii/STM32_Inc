@@ -44,6 +44,16 @@ static inline void GPIO_PinToggle(GPIO_TypeDef *port, uint16_t mask)
 {
 	port->BSRR = mask << 16 | (~port->ODR & mask);
 }
+// TIM ===================================================================
+static inline void TIM_encoder_init(TIM_TypeDef *tim)
+{
+	tim->SMCR = 1u << TIM_SMCR_SMS_Pos;
+	tim->CCMR1 = 0
+		| 15u << TIM_CCMR1_IC1F_Pos | TIM_CCMR1_CC1S_0
+		| 15u << TIM_CCMR1_IC2F_Pos | TIM_CCMR1_CC2S_0;
+	tim->CCER = TIM_CCER_CC1E | TIM_CCER_CC2E;
+	tim->CR1 = 2u << TIM_CR1_CKD_Pos | TIM_CR1_CEN;
+}
 // deprecated stuff ======================================================
 // register init structure and routine
 struct init_entry_ {
