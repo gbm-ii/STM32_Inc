@@ -35,11 +35,12 @@ static inline uint16_t BRR_value(uint32_t uart_clk, uint32_t baudrate)
 	return brr;
 }
 // GPIO utilities ========================================================
+#ifdef IOENR
 static inline void GPIO_PortEnable(GPIO_TypeDef *port)
 {
 	RCC->IOENR |= RCC_IOENR_GPIOEN(port);
 }
-
+#endif
 static inline void GPIO_PinToggle(GPIO_TypeDef *port, uint16_t mask)
 {
 	port->BSRR = mask << 16 | (~port->ODR & mask);

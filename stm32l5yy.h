@@ -117,4 +117,7 @@ enum adc_smpt_ {ADC_SMPT_2, ADC_SMPT_6, ADC_SMPT_12, ADC_SMPT_24, ADC_SMPT_47, A
 #define	OCTOSPI_CR_FMODE_MM	(3u << OCTOSPI_CR_FMODE_Pos)
 
 //#define OCTOSPI_FCR_CTOF	OCTOSPI_FCR_TOF	// correct header file error
+
+#include "stm32util.h"
+
 #endif

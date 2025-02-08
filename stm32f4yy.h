@@ -10,7 +10,6 @@
 
 #include "stm32f4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
-#include "stm32util.h"
 
 // STM32F4x register/bit defs not present in stm32f4xx.h file
 
@@ -43,10 +42,10 @@
 #define BSRRH(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 // RCC GPIO enable =======================================================
 #define IOENR	AHB1ENR	// IO port enable register alias
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+//#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 #define RCC_IOENR_GPIOEN(p) ( (RCC_AHB1ENR_GPIOAEN) << GPIOIDX(p) )
 
-#define  PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
+#define PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 
 #define DMA_SxCR_CHSELV(ch)	(((ch) & 7) << 25)
 #define DMA_SxCR_MSIZE16	DMA_SxCR_MSIZE_0
@@ -87,5 +86,7 @@
 enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_TIM3, AFN_TIM9,
 	AFN_I2C, AFN_SPI1, AFN_SPI3, AFN_USART1_2,
 	AFN_USART6, AFN_I2C2_3, AFN_USB};
+
+#include "stm32util.h"
 
 #endif

@@ -88,7 +88,7 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1, AFN_TIM2,
 };
 // RCC GPIO enable =======================================================
 #define IOENR	IOPENR	// IO port enable register alias
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+//#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 #define RCC_IOENR_GPIOEN(p) ( (RCC_IOPENR_GPIOAEN) << GPIOIDX(p) )
 
 #define RCC_CFGR_SW_HSISYS	0u

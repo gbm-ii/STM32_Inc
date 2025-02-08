@@ -11,7 +11,6 @@
 #include <stdbool.h>
 #include "stm32l4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
-#include "stm32util.h"
 
 #ifdef OCTOSPI1
 #define STM32L4PLUS
@@ -52,8 +51,7 @@
 #define GPIO_OSPEEDR_VHI	3u
 
 #define IOENR	AHB2ENR	// IO port enable register alias
-
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+//#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 #define RCC_IOENR_GPIOEN(p) ( (RCC_AHB2ENR_GPIOAEN) << GPIOIDX(p) )
 
 //#define BRR(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
@@ -147,4 +145,7 @@ enum adc_smpt_ {ADC_SMPT_2, ADC_SMPT_6, ADC_SMPT_12, ADC_SMPT_24, ADC_SMPT_47, A
 #define	OCTOSPI_CR_FMODE_MM	(3u << OCTOSPI_CR_FMODE_Pos)
 
 #define OCTOSPI_FCR_CTOF	OCTOSPI_FCR_TOF	// correct header file error
+
+#include "stm32util.h"
+
 #endif
