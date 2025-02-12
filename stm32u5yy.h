@@ -11,9 +11,8 @@
 #include <stdbool.h>
 #include "stm32u5xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
-//#include "stm32util.h"
 
-// STM32H5x register/bit defs not present in stm32h5xx.h file
+// STM32U5x register/bit defs not present in stm32h5xx.h file
 
 #define GPIO_OSPEEDR_LO	0	// 2 MHz
 #define GPIO_OSPEEDR_MED	1u		// 10 MHz
@@ -36,15 +35,13 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define  PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 
 // Calibration values stored in ROM
-//#define VREFINT_mV	3300u
-//#define VREFINT_CAL	(*(uint16_t *)0x08fff810)	// @ 3.3V
 // 14-bit cal values
-#define VREFINT_mV	3000u
-#define VREFINT_CAL	(*(uint16_t *)0x0bfa07a5)	// @ 3.0V
-#define TS_CAL1	(*(uint16_t *)0x0bfa0710)	// @ 3.0V
-#define TS_CAL2	(*(uint16_t *)0x0bfa0742)	// @ 3.0V
-#define T_CAL1	30u
-#define T_CAL2	130u
+#define VREFINT_CAL_mV	3000u
+#define VREFINT_CAL	(*(const uint16_t *)0x0bfa07a5)	// @ 3.0V
+#define TS_CAL1	(*(const uint16_t *)0x0bfa0710)	// @ 3.0V
+#define TS_CAL2	(*(const uint16_t *)0x0bfa0742)	// @ 3.0V
+#define TS_CAL1_T	30u
+#define TS_CAL2_T	130u
 
 #define ADCH_VREF	17
 

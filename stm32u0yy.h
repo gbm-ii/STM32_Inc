@@ -32,10 +32,12 @@
 
 // Calibration values stored in ROM
 #define VREFINT_CAL_mV	3000u	// calibration voltage
-#define VREFINT_CAL	(*(uint16_t *)0x1fff6ea4)
+#define VREFINT_CAL	(*(const uint16_t *)0x1fff6ea4)
 
-#define TS_CAL1	(*(uint16_t *)0x1fff6e68)	// at 30 C, 3 V
-#define TS_CAL2	(*(uint16_t *)0x1fff6e8a)	// at 130 C
+#define TS_CAL1_T	30
+#define TS_CAL2_T	110
+#define TS_CAL1	(*(const uint16_t *)0x1fff6e68)	// at 30 C, 3 V
+#define TS_CAL2	(*(const uint16_t *)0x1fff6e8a)	// at 130 C
 // DMAMUX ================================================================
 enum dmamux_in_ {
 	DMAMUX_IN_REQ_GEN0 = 1, DMAMUX_IN_REQ_GEN1, DMAMUX_IN_REQ_GEN2, DMAMUX_IN_REQ_GEN3,
