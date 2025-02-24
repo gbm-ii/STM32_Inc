@@ -5,7 +5,11 @@
  
 //#include "stm32u5yy.h"
 
+#ifdef STM32U5A5
+#ifndef HSE_VALUE
 #define HSE_VALUE	8000000u
+#endif
+#endif
 
 // all LEDs active HIGH (driven by transistors)
 // LD1
