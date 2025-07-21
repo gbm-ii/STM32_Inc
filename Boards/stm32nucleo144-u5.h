@@ -40,6 +40,7 @@
 #define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)
 
 // GPIOA USART1 pins - ST-Link VCP
+#define VCP_UART	USART1
 #define VCP_PORT GPIOA
 #define TX_BIT	9
 #define RX_BIT	10

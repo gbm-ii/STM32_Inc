@@ -2,7 +2,7 @@
 	STM32H5 series enhanced defs
 	gbm 01'2024
 
-	To be included instead of original stm32h5xx.h.
+	To be included instead of the original stm32h5xx.h.
 */
 
 #ifndef __STM32H5YY_H
@@ -12,8 +12,11 @@
 #include "stm32h5xx.h"
 #include "stm32util.h"
 
-// STM32H5x register/bit defs not present in stm32h5xx.h file
+#define FLASH_PAGE_SIZE	0x2000
+#define	FLASH_FKEY1	0x45670123
+#define	FLASH_FKEY2	0xCDEF89AB
 
+// STM32H5x register/bit defs not present in stm32h5xx.h file
 #define GPIO_OSPEEDR_LO	0	// 2 MHz
 #define GPIO_OSPEEDR_MED	1u		// 10 MHz
 #define GPIO_OSPEEDR_HI	2u		// 30 MHz
@@ -38,15 +41,61 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 
 // Calibration values stored in ROM
 #define VREFINT_mV	3300u
-#define VREFINT_CAL	(*(uint16_t *)0x08fff810)	// @ 3.3V
+#define VREFINT_CAL	(*(const uint16_t *)0x08fff810)	// @ 3.3V
 
-#define ADCH_VREF	17
+#define T_CAL1	30
+#define T_CAL2	130
+#define TS_CAL1	(*(const uint16_t *)0x08fff814)	// @ 3.3V, 30 deg C
+#define TS_CAL2	(*(const uint16_t *)0x08fff818)	// @ 3.3V, 130 deg C
 
-#define	ADC_SMPR_480	7
+
+#define ADCH_VBAT4	2u
+#define ADCH_VDDCORE	6u
+#define ADCH_VSENSE	16u
+#define ADCH_VREFINT	17u
+
+#define	ADC_SMPT_2_5	0u
+#define	ADC_SMPT_6_5	1u
+#define	ADC_SMPT_12_5	2u
+#define	ADC_SMPT_24_5	3u
+#define	ADC_SMPT_47_5	4u
+#define	ADC_SMPT_92_5	5u
+#define	ADC_SMPT_247_5	6u
+#define	ADC_SMPT_640_5	7u
+
+#define ADC_CCR_PRESC_DIV2	1u
+#define ADC_CCR_PRESC_DIV4	2u
+#define ADC_CCR_PRESC_DIV6	3u
+#define ADC_CCR_PRESC_DIV8	4u
+#define ADC_CCR_PRESC_DIV10	5u
+#define ADC_CCR_PRESC_DIV12	6u
+#define ADC_CCR_PRESC_DIV16	7u
+#define ADC_CCR_PRESC_DIV32	8u
+#define ADC_CCR_PRESC_DIV64	9u
 
 #ifndef HSI_VALUE
 #define HSI_VALUE	64000000u
 #endif
+
+enum gpdma_rq_ {DMARQ_ADC1, DMARQ_R1,
+	DMARQ_DAC1CH1, DMARQ_DAC1CH2, DMARQ_TIM6_UPD, DMARQ_TIM7_UPD,
+	DMARQ_SPI1_RX = 6, DMARQ_SPI1_TX, DMARQ_SPI2_RX, DMARQ_SPI2_TX, DMARQ_SPI3_RX, DMARQ_SPI3_TX,
+	DMARQ_I2C1_RX, DMARQ_I2C1_TX, DMARQ_R14, DMARQ_I2C2_RX, DMARQ_I2C2_TX,
+	DMARQ_USART1_RX = 21, DMARQ_USART1_TX, DMARQ_USART2_RX, DMARQ_USART2_TX, DMARQ_USART3_RX, DMARQ_USART3_TX,
+	DMARQ_LPUART1_RX = 45, DMARQ_LPUART1_TX,
+	DMARQ_TIM1_CC1 = 58, DMARQ_TIM1_CC2, DMARQ_TIM1_CC3, DMARQ_TIM1_CC4,
+	DMARQ_TIM1_UPD, DMARQ_TIM1_TRG, DMARQ_TIM1_COM,
+	DMARQ_TIM2_CC1 = 72, DMARQ_TIM2_CC2, DMARQ_TIM2_CC3, DMARQ_TIM2_CC4, DMARQ_TIM2_UPD,
+	DMARQ_TIM3_CC1 = 72, DMARQ_TIM3_CC2, DMARQ_TIM3_CC3, DMARQ_TIM3_CC4, DMARQ_TIM3_UPD, DMARQ_TIM3_TRG,
+};
+enum gpdma_trig_ {GPDMA_TRIG_EXTI0, GPDMA_TRIG_EXTI1, GPDMA_TRIG_EXTI2, GPDMA_TRIG_EXTI3,
+	GPDMA_TRIG_EXTI4, GPDMA_TRIG_EXTI5, GPDMA_TRIG_EXTI6, GPDMA_TRIG_EXTI7,
+};
+
+#define	DMA_CFCR_ALLF	(DMA_CFCR_TOF | DMA_CFCR_SUSPF | DMA_CFCR_USEF | DMA_CFCR_ULEF | DMA_CFCR_DTEF | DMA_CFCR_HTF | DMA_CFCR_TCF)
+
+#define LPTIM_PRESC_64	6u
+#define LPTIM_PRESC_128	7u
 
 #include "stm32yyyy.h"	// add defs common to STM32 family
 

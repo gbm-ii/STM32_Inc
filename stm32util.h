@@ -18,8 +18,8 @@
 #define BF4A(b,v)	((uint32_t)(v) << (((b) & 7) * 4) | ~(0xfu << (((b) & 7) * 4)))
 
 #define BRR(v)	((v) << 16)	// Bit reset mask for BSRR
-#define SETLOW(p,b)	((p)->BRR = 1 << (b))
-#define SETHIGH(p,b)	((p)->BSRR = 1 << (b))
+#define SETLOW(p,b)	((p)->BRR = 1u << (b))
+#define SETHIGH(p,b)	((p)->BSRR = 1u << (b))
 #define GETPIN(p,b)	((p)->IDR >> (b) & 1)
 //========================================================================
 #define IRQn(n)	(n##_IRQn)
