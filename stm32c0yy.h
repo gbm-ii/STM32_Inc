@@ -10,10 +10,8 @@
 #include "stm32c0xx.h"
 #include "stm32yyyy.h"
 
-// same as G0 series
-#define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLASHEN)
-
 // ADC ===================================================================
+enum adc_smpr_ {};
 #define ADC_SMPR_1_5	0u
 #define ADC_SMPR_3_5	1u
 #define ADC_SMPR_7_5	2u
@@ -23,21 +21,20 @@
 #define ADC_SMPR_79_5	6u
 #define ADC_SMPR_160_5	7u	// 17 us @ 14 MHz - for TS
 
-// different from G0
 // internally-connected ADC channels
 #define ADCH_TSEN	9u
 #define ADCH_VREFINT	10u
 #define ADCH_VDDA	15u
 #define ADCH_VSSA	16u
-
+// System ROM ============================================================
+#define SYSROM_BASE	0x1fff0000
+#define BOOT_ADDR	0x1fff0000	// System ROM bootloader
 // Calibration values stored in ROM
 #define VREFINT_CAL_mV	3000u	// calibration voltage
-#define VREFINT_CAL	(*(uint16_t *)0x1fff756a)
+#define VREFINT_CAL	(*(const uint16_t *)0x1fff756a)
 
-#define TS_CAL1	(*(uint16_t *)0x1fff7568)	// at 30 C
-
-#define BOOT_ADDR	0x1fff0000	// System ROM bootloader
-
+#define TS_CAL1_T 30
+#define TS_CAL1	(*(const uint16_t *)0x1fff7568)	// at 30 C
 // DMAMUX ================================================================
 enum dmamux_in_ {
 	DMAMUX_IN_REQ_GEN0 = 1, DMAMUX_IN_REQ_GEN1, DMAMUX_IN_REQ_GEN2, DMAMUX_IN_REQ_GEN3,
@@ -71,7 +68,6 @@ enum dmamux_in_ {
 // Flash =================================================================
 #ifndef FLASH_PAGE_SIZE
 #define FLASH_PAGE_SIZE	2048u
-//#define FLASH_PG_SIZE	2048u
 #endif
 
 #define FLASH_SR_BSY	FLASH_SR_BSY1
@@ -86,11 +82,12 @@ enum dmamux_in_ {
 enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1, AFN_TIM2,
 	AFN_USARTx, AFN_TIMx, AFN_I2C, AFN_EVTOUT,
 };
-// RCC GPIO enable =======================================================
+// RCC ===================================================================
+#define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLASHEN)
+// RCC GPIO enable -------------------------------------------------------
 #define IOENR	IOPENR	// IO port enable register alias
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 #define RCC_IOENR_GPIOEN(p) ( (RCC_IOPENR_GPIOAEN) << GPIOIDX(p) )
-
+// RCC->CFGR bitfields ---------------------------------------------------
 #define RCC_CFGR_SW_HSISYS	0u
 #define RCC_CFGR_SW_HSE		1u
 #define RCC_CFGR_SW_HSIUSB	2u

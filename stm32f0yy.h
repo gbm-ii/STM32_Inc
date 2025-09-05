@@ -28,13 +28,24 @@
 #define ADC_SMPR_71_5	6
 #define ADC_SMPR_239_5	7	// 17 us @ 14 MHz - for TS
 
-// Calibration values stored in ROM
-#define VREFINT_CAL	(*(uint16_t *)0x1ffff7ba)
-#define TS_CAL1	(*(uint16_t *)0x1ffff7b8)
-#define TS_CAL2	(*(uint16_t *)0x1ffff7c2)
+#if defined STM32F042x6
+#define SYSROM_BASE 0x1fffc400u
+#define BOOT_ADDR 0x1fffc400u
+#endif
+#if defined STM32F072xB
+#define SYSROM_BASE 0x1fffc800u
+#define BOOT_ADDR 0x1fffc800u
+#endif
 
-#define T_CAL1	30
-#define T_CAL2	110
+#define BOOTVEC ((union vectab_ *)BOOT_ADDR)
+
+// Calibration values stored in ROM
+#define VREFINT_CAL	(*(const uint16_t *)0x1ffff7ba)
+#define TS_CAL1	(*(const uint16_t *)0x1ffff7b8)
+#define TS_CAL2	(*(const uint16_t *)0x1ffff7c2)
+
+#define TS_CAL1_T	30
+#define TS_CAL2_T	110
 
 #ifndef FLASH_PAGE_SIZE
 #if defined(STM32F072xB) || defined(STM32F334x8) || defined(STM32F030x8)
@@ -43,15 +54,6 @@
 #define FLASH_PAGE_SIZE	1024u
 #endif
 #endif
-
-#if defined STM32F042x6
-#define BOOT_ADDR 0x1fffc400u
-#endif
-#if defined STM32F072xB
-#define BOOT_ADDR 0x1fffc800u
-#endif
-
-#define BOOTVEC ((union vectab_ *)BOOT_ADDR)
 
 #define SYSCFG_CFGR1_MEM_SYS	1u
 #define SYSCFG_CFGR1_MEM_RAM	3u

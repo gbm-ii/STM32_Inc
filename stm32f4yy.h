@@ -10,13 +10,16 @@
 
 #include "stm32f4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
-#include "stm32util.h"
 
 // STM32F4x register/bit defs not present in stm32f4xx.h file
 
 #define FLASH_CR_SNBV(v)	((v) << FLASH_CR_SNB_Pos & FLASH_CR_SNB_Msk)
 #define FLASH_CR_PSIZEV(v)	((v) << FLASH_CR_PSIZE_Pos & FLASH_CR_PSIZE_Msk)
 #define FLASH_CR_PSIZE32	FLASH_CR_PSIZEV(2)
+
+#ifndef HSI_VALUE
+#define HSI_VALUE	16000000u
+#endif
 
 #define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
 
@@ -43,10 +46,9 @@
 #define BSRRH(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 // RCC GPIO enable =======================================================
 #define IOENR	AHB1ENR	// IO port enable register alias
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 #define RCC_IOENR_GPIOEN(p) ( (RCC_AHB1ENR_GPIOAEN) << GPIOIDX(p) )
 
-#define  PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
+#define PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 
 #define DMA_SxCR_CHSELV(ch)	(((ch) & 7) << 25)
 #define DMA_SxCR_MSIZE16	DMA_SxCR_MSIZE_0
@@ -65,27 +67,24 @@
 #define DMA_HIFCR_CALLF6	(0x3f << 16)
 #define DMA_HIFCR_CALLF7	(0x3f << 22)
 
-//#define VREFINT_mV	1210
-
 // Calibration values stored in ROM
-#define VREFINT_CAL	(*(uint16_t *)0x1fff7a2a)	// @ 3.3V
-#define TS_CAL1	(*(uint16_t *)0x1fff7a2c)
-#define TS_CAL2	(*(uint16_t *)0x1fff7a2e)
+#define VREFINT_CAL_mV	3300u
+#define VREFINT_CAL	(*(const uint16_t *)0x1fff7a2a)	// @ 3.3V
 
-#define T_CAL1	30
-#define T_CAL2	110
+#define TS_CAL1_T	30
+#define TS_CAL2_T	110
+#define TS_CAL1	(*(const uint16_t *)0x1fff7a2c)
+#define TS_CAL2	(*(const uint16_t *)0x1fff7a2e)
 
 #define ADCH_VREF	17
 #define	ADCH_TSEN	18
 
 #define	ADC_SMPR_480	7
 
-#ifndef HSI_VALUE
-#define HSI_VALUE	16000000u
-#endif
-
 enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_TIM3, AFN_TIM9,
 	AFN_I2C, AFN_SPI1, AFN_SPI3, AFN_USART1_2,
 	AFN_USART6, AFN_I2C2_3, AFN_USB};
+
+#include "stm32util.h"
 
 #endif

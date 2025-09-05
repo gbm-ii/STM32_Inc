@@ -11,7 +11,6 @@
 #include <stdbool.h>
 #include "stm32l4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
-#include "stm32util.h"
 
 #ifdef OCTOSPI1
 #define STM32L4PLUS
@@ -52,11 +51,8 @@
 #define GPIO_OSPEEDR_VHI	3u
 
 #define IOENR	AHB2ENR	// IO port enable register alias
-
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+//#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 #define RCC_IOENR_GPIOEN(p) ( (RCC_AHB2ENR_GPIOAEN) << GPIOIDX(p) )
-
-//#define BRR(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 
 enum afn_ {AFN_TIM1 = 1, AFN_USB = 10, AFN_OCTOSPI = 10, AFN_TIM15_17 = 14};
 
@@ -81,17 +77,17 @@ enum afn_ {AFN_TIM1 = 1, AFN_USB = 10, AFN_OCTOSPI = 10, AFN_TIM15_17 = 14};
 //#define VREFINT_mV	1210
 
 // Calibration values stored in ROM
-#define VREFINT_CAL_mV	3000
-#define VREFINT_CAL	(*(uint16_t *)0x1fff75aa)	// @ 3.0V
-#define TS_CAL1	(*(int16_t *)0x1fff75a8)
-#define TS_CAL2	(*(int16_t *)0x1fff75ca)
+#define VREFINT_CAL_mV	3000u
+#define VREFINT_CAL	(*(const uint16_t *)0x1fff75aa)	// @ 3.0V
+#define TS_CAL1	(*(const uint16_t *)0x1fff75a8)
+#define TS_CAL2	(*(const int16_t *)0x1fff75ca)
 
-#define T_CAL1	30
+#define TS_CAL1_T	30
 #if defined(STM32L412xx) || defined(STM32L496xx) || defined(STM32L4PLUS)
 // newer models are calibrated at 130
-#define T_CAL2	130
+#define TS_CAL2_T	130
 #else
-#define xT_CAL2	110
+#define TS_CAL2_T	110
 #endif
 
 #define ADCH_VREF	0
@@ -147,4 +143,7 @@ enum adc_smpt_ {ADC_SMPT_2, ADC_SMPT_6, ADC_SMPT_12, ADC_SMPT_24, ADC_SMPT_47, A
 #define	OCTOSPI_CR_FMODE_MM	(3u << OCTOSPI_CR_FMODE_Pos)
 
 #define OCTOSPI_FCR_CTOF	OCTOSPI_FCR_TOF	// correct header file error
+
+#include "stm32util.h"
+
 #endif

@@ -18,8 +18,8 @@
 #define BF4A(b,v)	((uint32_t)(v) << (((b) & 7) * 4) | ~(0xfu << (((b) & 7) * 4)))
 
 #define BRR(v)	((v) << 16)	// Bit reset mask for BSRR
-#define SETLOW(p,b)	((p)->BRR = 1 << (b))
-#define SETHIGH(p,b)	((p)->BSRR = 1 << (b))
+#define SETLOW(p,b)	((p)->BRR = 1u << (b))
+#define SETHIGH(p,b)	((p)->BSRR = 1u << (b))
 #define GETPIN(p,b)	((p)->IDR >> (b) & 1)
 //========================================================================
 #define IRQn(n)	(n##_IRQn)
@@ -35,14 +35,25 @@ static inline uint16_t BRR_value(uint32_t uart_clk, uint32_t baudrate)
 	return brr;
 }
 // GPIO utilities ========================================================
+#ifdef IOENR
 static inline void GPIO_PortEnable(GPIO_TypeDef *port)
 {
 	RCC->IOENR |= RCC_IOENR_GPIOEN(port);
 }
-
+#endif
 static inline void GPIO_PinToggle(GPIO_TypeDef *port, uint16_t mask)
 {
 	port->BSRR = mask << 16 | (~port->ODR & mask);
+}
+// TIM ===================================================================
+static inline void TIM_encoder_init(TIM_TypeDef *tim)
+{
+	tim->SMCR = 1u << TIM_SMCR_SMS_Pos;
+	tim->CCMR1 = 0
+		| 15u << TIM_CCMR1_IC1F_Pos | TIM_CCMR1_CC1S_0
+		| 15u << TIM_CCMR1_IC2F_Pos | TIM_CCMR1_CC2S_0;
+	tim->CCER = TIM_CCER_CC1E | TIM_CCER_CC2E;
+	tim->CR1 = 2u << TIM_CR1_CKD_Pos | TIM_CR1_CEN;
 }
 // deprecated stuff ======================================================
 // register init structure and routine

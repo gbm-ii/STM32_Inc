@@ -32,10 +32,12 @@
 
 // Calibration values stored in ROM
 #define VREFINT_CAL_mV	3000u	// calibration voltage
-#define VREFINT_CAL	(*(uint16_t *)0x1fff6ea4)
+#define VREFINT_CAL	(*(const uint16_t *)0x1fff6ea4)
 
-#define TS_CAL1	(*(uint16_t *)0x1fff6e68)	// at 30 C, 3 V
-#define TS_CAL2	(*(uint16_t *)0x1fff6e8a)	// at 130 C
+#define TS_CAL1_T	30
+#define TS_CAL2_T	110
+#define TS_CAL1	(*(const uint16_t *)0x1fff6e68)	// at 30 C, 3 V
+#define TS_CAL2	(*(const uint16_t *)0x1fff6e8a)	// at 130 C
 // DMAMUX ================================================================
 enum dmamux_in_ {
 	DMAMUX_IN_REQ_GEN0 = 1, DMAMUX_IN_REQ_GEN1, DMAMUX_IN_REQ_GEN2, DMAMUX_IN_REQ_GEN3,
@@ -82,7 +84,7 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1_2, AFN_USART6,
 	AFN_I2C, AFN_SPI3_TIM4, AFN_LPUART2};
 // RCC GPIO enable =======================================================
 #define IOENR	IOPENR	// IO port enable register alias
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+//#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
 #define RCC_IOENR_GPIOEN(p) ( (RCC_IOPENR_GPIOAEN) << GPIOIDX(p) )
 // RCC =============================================================================
 #define RCC_PLLCFGR_PLLMV(x) (((x) - 1u) << RCC_PLLCFGR_PLLM_Pos & RCC_PLLCFGR_PLLM)
@@ -92,5 +94,7 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1_2, AFN_USART6,
 
 #define RCC_CFGR_SW_PLLRCLK	3u
 #define RCC_CFGR_SW_LSI		4u
+
+#include "stm32util.h"
 
 #endif
