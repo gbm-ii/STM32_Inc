@@ -10,6 +10,7 @@
 
 #include "stm32f4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
+#include "stm32util.h"
 
 // STM32F4x register/bit defs not present in stm32f4xx.h file
 
@@ -86,7 +87,5 @@
 enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_TIM3, AFN_TIM9,
 	AFN_I2C, AFN_SPI1, AFN_SPI3, AFN_USART1_2,
 	AFN_USART6, AFN_I2C2_3, AFN_USB};
-
-#include "stm32util.h"
 
 #endif

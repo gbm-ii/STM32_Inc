@@ -30,14 +30,11 @@
 #define ADCH_VDDA	15u
 #define ADCH_VSSA	16u
 
-#define	ADCH_SMPR_SMPSELCH(x)	(ADC_SMPR_SMPSEL0 << (x))
-
 // Calibration values stored in ROM
 #define VREFINT_CAL_mV	3000u	// calibration voltage
 #define VREFINT_CAL	(*(uint16_t *)0x1fff756a)
 
 #define TS_CAL1	(*(uint16_t *)0x1fff7568)	// at 30 C
-#define TS_CAL1_T	30
 
 #define BOOT_ADDR	0x1fff0000	// System ROM bootloader
 
