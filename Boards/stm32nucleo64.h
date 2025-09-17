@@ -1,6 +1,6 @@
 /*
 	STM32 Nucleo64 board defs
-	gbm 11'2015..10'2024
+	gbm 11'2015..09'2025
 */
 #ifndef STM32NUCLEO64_H_
 #define STM32NUCLEO64_H_
@@ -12,7 +12,7 @@
 #define BTN_BIT		13
 #define BTN_MSK		(1u << BTN_BIT)
 
-#if defined(STM32G4) || defined(STM32H5) || defined(STM32U5)
+#if defined(STM32G4) || defined(STM32H5) || defined(STM32U3) || defined(STM32U5)
 // user button active high
 #define BTN_DOWN	((BTN_PORT->IDR >> BTN_BIT & 1u))
 #define BTN_PULL	GPIO_PUPDR_PD	// defined in stm32yyyy.h
@@ -51,7 +51,7 @@
 // VCP UART
 #define VCP_PORT	GPIOA	// All N64 boards
 
-#ifdef STM32U5
+#if defined(STM32U3) || defined(STM32U5)
 #define VCP_TX_BIT	9
 #define VCP_RX_BIT	10
 #define VCP_UART	USART1
@@ -83,7 +83,7 @@
 #elif defined(STM32H5) || defined(STM32G4)
 #define HSE_FREQ	24000000u
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON)	// crystal
-#elif defined(STM32L4)
+#elif defined(STM32L4) || defined(STM32U3)
 // no HSE connection by default! (use MSI synchronized to LSE)
 #else
 // other, "standard" boards - 8 MHz clock from ST-Link - set HSE_BYPASS
