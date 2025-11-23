@@ -6,10 +6,19 @@
 #ifndef __STM32F10Y_H
 #define __STM32F10Y_H
 
-#include "stm32f10x.h"
+#include "stm32f1xx.h"
 #include "stm32yyyy.h"
 
 // STM32F10x register/bit defs not present in stm32f1xx.h file
+#ifndef FLASH_PAGE_SIZE
+#define FLASH_PAGE_SIZE	1024u
+#endif
+
+#define BOOT_ADDR	0x1ffff000
+
+#ifndef	HSI_VALUE
+#define	HSI_VALUE	8000000u
+#endif
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 

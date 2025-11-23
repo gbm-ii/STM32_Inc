@@ -16,7 +16,7 @@
 // bit fields to be ANDed (for STM32L/H/G/U series MODER)
 #define BF2A(b,v)	((uint32_t)(v) << (((b) & 0xf) * 2) | ~(3u << (((b) & 0xf) * 2)))
 #define BF4A(b,v)	((uint32_t)(v) << (((b) & 7) * 4) | ~(0xfu << (((b) & 7) * 4)))
-
+//========================================================================
 #define BRR(v)	((v) << 16)	// Bit reset mask for BSRR
 #define SETLOW(p,b)	((p)->BRR = 1u << (b))
 #define SETHIGH(p,b)	((p)->BSRR = 1u << (b))
@@ -24,28 +24,40 @@
 //========================================================================
 #define IRQn(n)	(n##_IRQn)
 #define IRQHandler(n)	(n##_IRQHandler)
-// UART BRR register value calc ==========================================
+
+// Polled delay routine, exclusive SysTick use, no interrupts ============
+static inline void SysTick_Delay(uint32_t nc)
+{
+	SysTick->LOAD = nc - 1u;
+	SysTick->VAL = 0;
+	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+	while (~SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) ;
+	SysTick->CTRL = 0;
+}
+// UART BRR register value calculation for 16x ovesampling ===============
 static inline uint16_t BRR_value(uint32_t uart_clk, uint32_t baudrate)
 {
 	uint16_t brr = (uart_clk + baudrate / 2) / baudrate;
 	if (brr < 16u)
-		brr = 16u;
+		brr = 16u;	// the minimum valid value
 	else if (brr > 0xfff7)
 		brr = 0xfff7;		// undocumented! - the maximum valid BRR value
 	return brr;
 }
 // GPIO utilities ========================================================
-#ifdef IOENR
+#ifdef IOENR	// IO enable register defined in series-specifoc header
 static inline void GPIO_PortEnable(GPIO_TypeDef *port)
 {
 	RCC->IOENR |= RCC_IOENR_GPIOEN(port);
 }
 #endif
+// STM32 optimal toggle routine for replacing broken HAL_GPIO_PinToggle()
 static inline void GPIO_PinToggle(GPIO_TypeDef *port, uint16_t mask)
 {
 	port->BSRR = mask << 16 | (~port->ODR & mask);
 }
 // TIM ===================================================================
+#ifdef TIM_SMCR_SMS_Pos
 static inline void TIM_encoder_init(TIM_TypeDef *tim)
 {
 	tim->SMCR = 1u << TIM_SMCR_SMS_Pos;
@@ -55,6 +67,7 @@ static inline void TIM_encoder_init(TIM_TypeDef *tim)
 	tim->CCER = TIM_CCER_CC1E | TIM_CCER_CC2E;
 	tim->CR1 = 2u << TIM_CR1_CKD_Pos | TIM_CR1_CEN;
 }
+#endif
 // deprecated stuff ======================================================
 // register init structure and routine
 struct init_entry_ {

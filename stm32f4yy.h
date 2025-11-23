@@ -11,6 +11,8 @@
 #include "stm32f4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
 
+#define BOOT_ADDR	0x1fff0000
+#define FLASH_PAGE_SIZE	0x4000
 // STM32F4x register/bit defs not present in stm32f4xx.h file
 
 #define FLASH_CR_SNBV(v)	((v) << FLASH_CR_SNB_Pos & FLASH_CR_SNB_Msk)

@@ -10,6 +10,7 @@
 
 #ifdef BLUEPILLPLUS
 
+#define BOARDNAME	"BluePill+"
 // Button ================================================================
 #define BTN_PORT	GPIOA
 #define BTN_BIT		0
@@ -24,6 +25,8 @@
 
 #else	// BluePill Classic
 
+#define BOARDNAME	"BluePill"
+// Button ================================================================
 #define BTN_PORT	GPIOB
 #define BTN_BIT		2
 #define BTN_MSK	(1u << BTN_BIT)
