@@ -1,0 +1,31 @@
+/*
+	STM32H523xx BlackPill Board defs
+	https://github.com/WeActStudio/WeActStudio.STM32H523CoreBoard
+	gbm 11'2025
+*/
+#ifndef STM32H5BP_H_
+#define STM32H5BP_H_
+#include "stm32h5yy.h"
+
+#define HSE_VALUE	8'000'000u
+// Button ================================================================
+// active low, requires pullup
+#define BTN_PORT	GPIOA
+#define BTN_BIT		0
+#define BTN_MSK	(1u << BTN_BIT)
+#define BTN_DOWN	(~BTN_PORT->IDR & 1u << BTN_BIT)
+// LED ===================================================================
+#define LED_PORT	GPIOC
+#define LED_BIT	13	// active LOW
+#define LED_MSK	(1u << LED_BIT)
+#define LED_ON	(LED_PORT->BRR = LED_MSK)
+#define LED_OFF	(LED_PORT->BSRR = LED_MSK)
+// SPI Flash =============================================================
+// PA4, 5, 6, 7 - NSS, SCK, MISO, MOSI
+#define NSS_PORT	GPIOA
+#define NSS_BIT	4
+#define FLASH_SPI	SPI1
+#define NSS_MSK	(1u << NSS_BIT)
+// UARTS: 1 - PA9/PA10, 2 - PA2/PA3
+//========================================================================
+#endif

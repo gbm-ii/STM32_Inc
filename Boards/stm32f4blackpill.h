@@ -10,7 +10,7 @@
 #define BTN_PORT	GPIOA
 #define BTN_BIT		0
 #define BTN_MSK	(1u << BTN_BIT)
-#define BTN_DOWN	(~BTN_PORT->IDR >> BTN_BIT & 1)
+#define BTN_DOWN	(~BTN_PORT->IDR & 1u << BTN_BIT)
 // LED ===================================================================
 #define LED_PORT	GPIOC
 #define LED_BIT	13	// active LOW

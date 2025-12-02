@@ -12,8 +12,7 @@
 #include "stm32yyyy.h"	// add defs common to STM32 family
 
 #define BOOT_ADDR	0x1fff0000
-#define FLASH_PAGE_SIZE	0x4000
-// STM32F4x register/bit defs not present in stm32f4xx.h file
+#define FLASH_PAGE_SIZE	0x4000	// min. page size
 
 #define FLASH_CR_SNBV(v)	((v) << FLASH_CR_SNB_Pos & FLASH_CR_SNB_Msk)
 #define FLASH_CR_PSIZEV(v)	((v) << FLASH_CR_PSIZE_Pos & FLASH_CR_PSIZE_Msk)
@@ -23,6 +22,9 @@
 #define HSI_VALUE	16000000u
 #endif
 
+#define	INIT_HCLK_FREQ	HSI_VALUE
+
+// STM32F4x register/bit defs not present in stm32f4xx.h file
 #define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
 
 #define  RCC_PLLCFGR_RSVD	0xf0bc8000

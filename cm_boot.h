@@ -45,7 +45,9 @@ struct cm_init_ {
 };
 
 #if __CORTEX_M > 1
-#define __VTOR_PRESENT	1
+#ifndef __VTOR_PRESENT
+#define __VTOR_PRESENT	1u
+#endif
 // if the size of vector table is needed by the application,
 // define NVIC_IRQs before including this header
 #ifndef NVIC_IRQs

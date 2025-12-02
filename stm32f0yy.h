@@ -15,6 +15,7 @@
 #ifndef HSI_VALUE
 #define HSI_VALUE	8000000u
 #endif
+#define INIT_HCLK_FREQ	HSI_VALUE
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
@@ -46,6 +47,8 @@
 
 #define TS_CAL1_T	30
 #define TS_CAL2_T	110
+
+#define FLASH_END	FLASH_BANK1_END
 
 #ifndef FLASH_PAGE_SIZE
 #if defined(STM32F072xB) || defined(STM32F334x8) || defined(STM32F030x8)

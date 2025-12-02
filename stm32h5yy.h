@@ -10,11 +10,22 @@
 
 #include <stdbool.h>
 #include "stm32h5xx.h"
-#include "stm32util.h"
 
-#define FLASH_PAGE_SIZE	0x2000
+// Flash parameters
+#define FLASH_PAGE_SIZE	FLASH_SECTOR_SIZE
 #define	FLASH_FKEY1	0x45670123
 #define	FLASH_FKEY2	0xCDEF89AB
+
+#define BOOT_ADDR	0x0BF87000
+
+// Default clock after reset
+	// initial MCU clock after reset is HSI divided by 2 -> 32 MHz
+	// BUT ST-supplied SystemInit resets the divisor, so the clock freq is 64 MHz!
+#ifndef HSI_VALUE
+#define HSI_VALUE	64000000u
+#endif
+
+#define	INIT_HCLK_FREQ	HSI_VALUE
 
 // STM32H5x register/bit defs not present in stm32h5xx.h file
 #define GPIO_OSPEEDR_LO	0	// 2 MHz
@@ -45,11 +56,11 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define VREFINT_mV	3300u
 #define VREFINT_CAL	(*(const uint16_t *)0x08fff810)	// @ 3.3V
 
+// System ROM locations
 #define T_CAL1	30
 #define T_CAL2	130
 #define TS_CAL1	(*(const uint16_t *)0x08fff814)	// @ 3.3V, 30 deg C
 #define TS_CAL2	(*(const uint16_t *)0x08fff818)	// @ 3.3V, 130 deg C
-
 
 #define ADCH_VBAT4	2u
 #define ADCH_VDDCORE	6u
@@ -74,10 +85,6 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define ADC_CCR_PRESC_DIV16	7u
 #define ADC_CCR_PRESC_DIV32	8u
 #define ADC_CCR_PRESC_DIV64	9u
-
-#ifndef HSI_VALUE
-#define HSI_VALUE	64000000u
-#endif
 
 enum gpdma_rq_ {DMARQ_ADC1, DMARQ_R1,
 	DMARQ_DAC1CH1, DMARQ_DAC1CH2, DMARQ_TIM6_UPD, DMARQ_TIM7_UPD,
@@ -122,5 +129,6 @@ enum gpdma_trig_ {GPDMA_TRIG_EXTI0, GPDMA_TRIG_EXTI1, GPDMA_TRIG_EXTI2, GPDMA_TR
 #define USART_PRESC_DIV256	11u
 
 #include "stm32yyyy.h"	// add defs common to STM32 family
+#include "stm32util.h"
 
 #endif

@@ -1,5 +1,5 @@
 /*
- * gal_reg.h
+ *  bf_reg.h
  *  bit field definitions and utility functions for peripheral config register access
  *
  *  Created on: 9.11.2022
