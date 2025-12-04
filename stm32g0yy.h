@@ -12,6 +12,7 @@
 
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLASHEN)
 
+#define	INIT_HCLK_FREQ	16000000u
 // ADC ===================================================================
 #define ADC_SMPR_1_5	0u
 #define ADC_SMPR_3_5	1u
