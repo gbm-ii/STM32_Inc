@@ -109,19 +109,17 @@ static inline void vectable_setup(uint32_t addr)
 #ifdef __VTOR_PRESENT
 	SCB->VTOR = addr;
 #else	// Cortex-M0
-	/*
-	 * Put the definition of ram_vectable in some .c source file of the bootloader AND the application:
-	 * __attribute__((section(".ram_isr_vector"))) struct cm0_vectable_ ram_vectable;
-	 */
-	extern struct cm0_vectable_ ram_vectable;
-	ram_vectable = *(const struct cm0_vectable_ *)addr;	// copy vectors to start of RAM
-	/*
-	 * In the bootloader's and application's linker script files, put the following section def before .data section:
+	/* Put the definition of ram_vectable in some .c source file of the bootloader AND the application:
+	    __attribute__((section(".ram_isr_vector"))) struct cm0_vectable_ ram_vectable;
+	 *
+	 * In the bootloader's and application's linker script files, put the following section def BEFORE .data section:
 	    .ram_isr_vector (NOLOAD):
         {
             KEEP(*(.ram_isr_vector))
         } >RAM
 	 */
+	extern struct cm0_vectable_ ram_vectable;
+	ram_vectable = *(const struct cm0_vectable_ *)addr;	// copy vectors to start of RAM
 #endif
 }
 
