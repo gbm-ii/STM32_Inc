@@ -44,6 +44,16 @@ static inline uint16_t BRR_value(uint32_t uart_clk, uint32_t baudrate)
 		brr = 0xfff7;		// undocumented! - the maximum valid BRR value
 	return brr;
 }
+// UART BRR register value calculation for 8x ovesampling ===============
+static inline uint16_t BRR_x8value(uint32_t uart_clk, uint32_t baudrate)
+{
+	uint16_t brr = (uart_clk + baudrate / 2) / baudrate;
+	if (brr < 8u)
+		brr = 8u;	// the minimum valid value
+	else if (brr > 0xeffb)
+		brr = 0xeffb;		// undocumented! - the maximum valid BRR value?
+	return (brr & 0xeff8) << 1 | (brr & 7);
+}
 // GPIO utilities ========================================================
 #ifdef IOENR	// IO enable register defined in series-specifoc header
 static inline void GPIO_PortEnable(GPIO_TypeDef *port)

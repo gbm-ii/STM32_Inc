@@ -109,18 +109,22 @@ static inline void vectable_setup(uint32_t addr)
 #ifdef __VTOR_PRESENT
 	SCB->VTOR = addr;
 #else	// Cortex-M0
-	/* Put the definition of ram_vectable in some .c source file of the bootloader AND the application:
+	/* Put the definition of ram_vectable in a .c source file of the bootloader AND the application:
 	    __attribute__((section(".ram_isr_vector"))) struct cm0_vectable_ ram_vectable;
 	 *
-	 * In the bootloader's and application's linker script files, put the following section def BEFORE .data section:
-	    .ram_isr_vector (NOLOAD):
-        {
-            KEEP(*(.ram_isr_vector))
-        } >RAM
+	 * In the bootloader's AND application's linker script files, put the output section def BEFORE .data section:
+	  .ram_start_noinit (NOLOAD):
+	  {
+		KEEP(*(.ram_isr_vector))
+		KEEP(*(.ram_start_noinit))
+	  } >RAM
 	 */
 	extern struct cm0_vectable_ ram_vectable;
 	ram_vectable = *(const struct cm0_vectable_ *)addr;	// copy vectors to start of RAM
 #ifdef STM32F0	// added 04.12.2025
+	#ifdef	RCC_APB2ENR_SYSCFGCOMPEN	// F0 only - enable SYSCFG to change mem mapping
+		RCC->APB2ENR = RCC_APB2ENR_SYSCFGCOMPEN;
+	#endif
 	SYSCFG->CFGR1 = SYSCFG_CFGR1_MEM_RAM;	// map RAM at 0
 #endif
 #endif
