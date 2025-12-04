@@ -1,6 +1,6 @@
 /*
 	cm_boot.h - Cortex-M core boot util
-	gbm 10'2024..2025
+	gbm 10'2024..12'2025
 */
 
 /* The file should be included after MCU-specific header, so that Cortex-M core registers are defined.
@@ -120,9 +120,13 @@ static inline void vectable_setup(uint32_t addr)
 	 */
 	extern struct cm0_vectable_ ram_vectable;
 	ram_vectable = *(const struct cm0_vectable_ *)addr;	// copy vectors to start of RAM
+#ifdef STM32F0	// added 04.12.2025
+	SYSCFG->CFGR1 = SYSCFG_CFGR1_MEM_RAM;	// map RAM at 0
+#endif
 #endif
 }
 
+// Set Stack Pointer and start ResetHandler - may be used for starting any code, including the built-in vendor bootloader
 static inline void app_start(uint32_t addr)
 {
 	// at this point all interrupt sources must be disabled (NVIC, SysTick) and the CPU must have interrupts enabled
@@ -131,6 +135,13 @@ static inline void app_start(uint32_t addr)
 	// SP register should not be used in the assembly instructions implementing the statement below
 	// - check the .list file to verify that.
 	app_init->Reset_Handler();
+}
+
+// 2-in-1 for starting any user code - app or bootloder
+static inline void app_invoke(uint32_t addr)
+{
+	vectable_setup(addr);
+	app_start(addr);
 }
 
 #else
