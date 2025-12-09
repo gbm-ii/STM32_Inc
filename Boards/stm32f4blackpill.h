@@ -1,15 +1,19 @@
 /*
 	STM32F4xx BlackPill Board defs
-	gbm 11'2019
+	gbm 2019..2025
 */
 #ifndef STM32F4BP_H_
 #define STM32F4BP_H_
 #include "stm32f4yy.h"
+// Clock =================================================================
+#define HSE_VALUE 25000000u
+#define RCC_CR_HSESEL	RCC_CR_HSEON
 // Button - v1.3 and above ===============================================
 // active low, requires pullup
 #define BTN_PORT	GPIOA
 #define BTN_BIT		0
 #define BTN_MSK	(1u << BTN_BIT)
+#define BTN_PULL	GPIO_PUPDR_PU
 #define BTN_DOWN	(~BTN_PORT->IDR & 1u << BTN_BIT)
 // LED ===================================================================
 #define LED_PORT	GPIOC

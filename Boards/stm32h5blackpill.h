@@ -7,12 +7,13 @@
 #define STM32H5BP_H_
 #include "stm32h5yy.h"
 
-#define HSE_VALUE	8'000'000u
+#define HSE_VALUE	8000000u
 // Button ================================================================
 // active low, requires pullup
 #define BTN_PORT	GPIOA
 #define BTN_BIT		0
-#define BTN_MSK	(1u << BTN_BIT)
+#define BTN_MSK		(1u << BTN_BIT)
+#define BTN_PULL	GPIO_PUPDR_PU
 #define BTN_DOWN	(~BTN_PORT->IDR & 1u << BTN_BIT)
 // LED ===================================================================
 #define LED_PORT	GPIOC

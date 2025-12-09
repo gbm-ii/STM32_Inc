@@ -15,7 +15,7 @@
 #define BTN_PORT	GPIOA
 #define BTN_BIT		0
 #define BTN_MSK	(1u << BTN_BIT)
-#define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)
+#define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)	// active high - must be pulled down
 // LED ===================================================================
 #define LED_PORT	GPIOB
 #define LED_BIT	2	// active HIGH
@@ -27,6 +27,7 @@
 
 #define BOARDNAME	"BluePill"
 // Button ================================================================
+// no button but PB2 header may be used instead
 #define BTN_PORT	GPIOB
 #define BTN_BIT		2
 #define BTN_MSK	(1u << BTN_BIT)
