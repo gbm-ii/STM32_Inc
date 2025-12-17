@@ -1,6 +1,6 @@
 /*
 	some useful defs for STM32
-	gbm 11'2015
+	gbm 11'2015..12'2025
 */
 #ifndef __STM32UTIL_H
 #define __STM32UTIL_H
@@ -28,10 +28,14 @@
 // Polled delay routine, exclusive SysTick use, no interrupts ============
 static inline void SysTick_Delay(uint32_t nc)
 {
-	SysTick->LOAD = nc - 1u;
+	const uint32_t stperiods = nc / (1u << 24) + 1;
+	SysTick->LOAD = nc / stperiods - 1;
 	SysTick->VAL = 0;
 	SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
-	while (~SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) ;
+	for (uint32_t i = 0; i < stperiods; i++)
+	{
+		while (~SysTick->CTRL & SysTick_CTRL_COUNTFLAG_Msk) ;
+	}
 	SysTick->CTRL = 0;
 }
 // UART BRR register value calculation for 16x ovesampling ===============

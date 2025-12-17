@@ -82,6 +82,7 @@
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON)	// crystal
 #elif defined(STM32H5) || defined(STM32G4)
 #define HSE_FREQ	24000000u
+#define HSE_VALUE	24000000u
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON)	// crystal
 #elif defined(STM32L4) || defined(STM32U3)
 // no HSE connection by default! (use MSI synchronized to LSE)
