@@ -1,6 +1,7 @@
 /*
 	STM32F4xx BlackPill Board defs
-	gbm 2019..2025
+	docs: https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1
+	gbm 2019..2026
 */
 #ifndef STM32F4BP_H_
 #define STM32F4BP_H_
@@ -18,18 +19,18 @@
 // LED ===================================================================
 #define LED_PORT	GPIOC
 #define LED_BIT	13	// active LOW
+#define LED_ACTIVE_LEVEL	0
 #define LED_MSK	(1u << LED_BIT)
-//#define LED_DUTY	TIM2->CCR2
-#define LED_ON	(LED_PORT->BRR = LED_MSK)
+#define LED_ON	(LED_PORT->BSRR = LED_MSK << 16)
 #define LED_OFF	(LED_PORT->BSRR = LED_MSK)
 // SPI Flash =============================================================
 // PA4, 5, 6, 7 - NSS, SCK, MISO, MOSI
-#define NSS_PORT	GPIOA
-#define NSS_BIT	4
+#define FLASH_NSS_PORT	GPIOA
+#define FLASH_NSS_BIT	4
 #define FLASH_SPI	SPI1
 #define	FLASH_SPI_RX_DMACH DMA1_Channel2
 #define	FLASH_SPI_TX_DMACH DMA1_Channel3
-#define NSS_MSK	(1u << NSS_BIT)
+#define FLASH_NSS_MSK	(1u << NSS_BIT)
 // UARTS: 1 - PA9/PA10, 2 - PA2/PA3
 //========================================================================
 #endif

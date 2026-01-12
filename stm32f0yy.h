@@ -20,7 +20,7 @@
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
 #define IOENR	AHBENR	// RCC register containing GPIO enable bits
-#define RCC_IOENR_GPIOEN(p) ( (RCC_AHBENR_GPIOAEN) << GPIOIDX(p) )
+#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHBENR_GPIOAEN) << (idx) )
 
 #define GPIO_OSPEEDR_LOW	0u
 #define GPIO_OSPEEDR_MED	1u

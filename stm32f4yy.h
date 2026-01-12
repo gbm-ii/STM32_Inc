@@ -1,8 +1,8 @@
 /*
 	STM32F4 series enhanced defs
-	gbm 09'2014
+	gbm 2014..2026
 
-	To be included instead of original stm32f4xx.h.
+	To be included instead of the original stm32f4xx.h.
 */
 
 #ifndef __STM32F4YY_H
@@ -49,8 +49,8 @@
 
 #define BSRRH(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 // RCC GPIO enable =======================================================
-#define IOENR	AHB1ENR	// IO port enable register alias
-#define RCC_IOENR_GPIOEN(p) ( (RCC_AHB1ENR_GPIOAEN) << GPIOIDX(p) )
+#define IOENR	AHB1ENR	// RCC IO port enable register alias
+#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHB1ENR_GPIOAEN) << (idx) )
 
 #define PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 

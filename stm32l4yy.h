@@ -51,8 +51,7 @@
 #define GPIO_OSPEEDR_VHI	3u
 
 #define IOENR	AHB2ENR	// IO port enable register alias
-//#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
-#define RCC_IOENR_GPIOEN(p) ( (RCC_AHB2ENR_GPIOAEN) << GPIOIDX(p) )
+#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHB2ENR_GPIOAEN) << (idx) )
 
 enum afn_ {AFN_TIM1 = 1, AFN_USB = 10, AFN_OCTOSPI = 10, AFN_TIM15_17 = 14};
 

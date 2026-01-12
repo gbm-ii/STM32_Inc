@@ -74,7 +74,8 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1, AFN_TIM2,
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLASHEN)
 // RCC GPIO enable -------------------------------------------------------
 #define IOENR	IOPENR	// IO port enable register alias
-#define RCC_IOENR_GPIOEN(p) ( (RCC_IOPENR_GPIOAEN) << GPIOIDX(p) )
+#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_IOPENR_GPIOAEN) << (idx) )
+
 // RCC->CFGR bitfields ---------------------------------------------------
 #define RCC_CFGR_SW_HSISYS	0u
 #define RCC_CFGR_SW_HSE		1u

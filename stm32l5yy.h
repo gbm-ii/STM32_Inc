@@ -32,6 +32,8 @@
 enum afn_ {AFN_TIM1 = 1, AFN_I2C = 4, AFN_SPI, AFN_SPI3, AFN_USART = 7,
 	AFN_UART4, AFN_USB = 10};
 
+#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHB2ENR_GPIOAEN) << (idx) )
+
 #define GPIOA_MODER_DEFAULT	0xabffffff	// ok, not needed
 #define GPIOA_OSPEEDR_DEFAULT	0x0c000000	// ok
 #define GPIOB_MODER_DEFAULT	0xfffffebf
@@ -46,7 +48,6 @@ enum afn_ {AFN_TIM1 = 1, AFN_I2C = 4, AFN_SPI, AFN_SPI3, AFN_USART = 7,
 //#define BRR(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 
 #define  PWR_CR2_PLSV(a)	(((a) & 7) << 1)     /*!< Bit 0 */
-
 
 #define DMA_CCR_MSIZE16	DMA_CCR_MSIZE_0
 #define DMA_CCR_MSIZE32	DMA_CCR_MSIZE_1

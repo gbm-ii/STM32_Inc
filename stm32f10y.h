@@ -27,7 +27,7 @@
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
 #define IOENR	APB2ENR
-#define RCC_IOENR_GPIOEN(p) ( (RCC_APB2ENR_IOPAEN) << GPIOIDX(p) )
+#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_APB2ENR_IOPAEN) << (idx) )
 
 // copied from F0 header to avoid CCRx
 #ifndef DMA_CCR_EN
@@ -70,20 +70,20 @@
 
 enum gpio_crval_ {
 	GPIO_CR_AN,		// analog
-	GPIO_CR_OPP_M,	// 0x1	// GPIO push-pull output slow
-	GPIO_CR_OPP_S,	// 0x2	// GPIO push-pull output med
+	GPIO_CR_OPP_M,	// 0x1	// GPIO push-pull output med
+	GPIO_CR_OPP_S,	// 0x2	// GPIO push-pull output slow
 	GPIO_CR_OPP_F,	// 0x3	// GPIO push-pull output fast
 	GPIO_CR_INF,	//	4	// floating in
-	GPIO_CR_OOD_M,	//	0x5	// GPIO OD output slow
-	GPIO_CR_OOD_S,	//	0x6	// GPIO OD output med
+	GPIO_CR_OOD_M,	//	0x5	// GPIO OD output med
+	GPIO_CR_OOD_S,	//	0x6	// GPIO OD output slow
 	GPIO_CR_OOD_F,	//	0x7	// GPIO OD output fast
 	GPIO_CR_INP,	//	8	// push/pull in
-	GPIO_CR_AFPP_M,	//	0x9	// AF output slow
-	GPIO_CR_AFPP_S,	//	0xa	// AF output med
+	GPIO_CR_AFPP_M,	//	0x9	// AF output med
+	GPIO_CR_AFPP_S,	//	0xa	// AF output slow
 	GPIO_CR_AFPP_F,	//	0xb	// AF output fast
 	GPIO_CR_INR,	// input reserved
-	GPIO_CR_AFOD_M,	//	0xd	// AF OD output slow
-	GPIO_CR_AFOD_S,	//	0xe	// AF OD output med
+	GPIO_CR_AFOD_M,	//	0xd	// AF OD output med
+	GPIO_CR_AFOD_S,	//	0xe	// AF OD output slow
 	GPIO_CR_AFOD_F	//	0xf	// AF OD output fast
 };
 

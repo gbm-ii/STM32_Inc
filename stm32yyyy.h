@@ -20,7 +20,10 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define CRS_CFGR_SYNCSRC_LSE	CRS_CFGR_SYNCSRC_0
 #define CRS_CFGR_SYNCSRC_USB	CRS_CFGR_SYNCSRC_1
 // GPIO ==================================================================
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
+#define GPIO_SPACING	((uint8_t *)GPIOB - (uint8_t *)GPIOA)
+#define GPIOBYIDX(idx) ((GPIO_TypeDef *)((uint8_t *)GPIOA +  GPIO_SPACING * (idx)))
+#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / GPIO_SPACING)
+#define RCC_IOENR_GPIOEN(p) ( RCC_IOENR_GPIOENBIT(GPIOIDX(p)) )
 
 #define GPIO_MODER_IN	0u
 #define GPIO_MODER_OUT	1u

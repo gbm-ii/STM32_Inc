@@ -78,12 +78,12 @@ union adc_smpr_ {
 
 static inline void gREG_Modify(volatile uint32_t *reg, uint32_t mask, uint32_t val)
 {
-	*reg = (*reg & mask) | val;
+	*reg = (*reg & ~mask) | (val & mask);
 }
 
 static inline void gREG_Modify64(volatile uint64_t *reg, uint64_t mask, uint64_t val)
 {
-	*reg = (*reg & mask) | val;
+	*reg = (*reg & ~mask) | (val & mask);
 }
 
 #define MOD2	3u

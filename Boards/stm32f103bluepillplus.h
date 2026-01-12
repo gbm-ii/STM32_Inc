@@ -8,8 +8,6 @@
 #ifndef INC_F103BLUEPILLPLUS_H_
 #define INC_F103BLUEPILLPLUS_H_
 
-#warning Deprecated, use stm32f103bluepill.h.
-
 #ifdef BLUEPILLPLUS
 
 #define BOARDNAME	"BluePill+"
