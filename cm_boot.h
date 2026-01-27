@@ -4,6 +4,7 @@
 */
 
 /* The file should be included after MCU-specific header, so that Cortex-M core registers are defined.
+ *
  * For STM32, BOOT_ADDR should be defined to be equal to system ROM base for a specific MCU model,
  * as specified in AN2606 document.
  * All the (pseudo)functions defined here should be called from the main thread code, NOT form ISRs.
@@ -11,14 +12,45 @@
  * it will not work if SP register is used after __set_MSP.
  * With gcc-12, the correct code is produced with -O1 and above while -O0 and -Os use SP (wrong).
  * With gcc-14, use anything other than -O0.
- * In the application's link script, change the FLASH starting address to skip the space used by the bootloader.
+ *
+ * In the application's link script, change the FLASH starting address to skip the space used by the bootloader;
+ * a convenient way to achieve this is to add symbol definition before the MEMORY block (0x4000 is an example app offset value):
+
+   _flash_offset = 0x4000;
+
+ * and to modify the FLASH definition in MEMORY block
+ * (the original LENGTH value should be preserved - 128K is an example value)
+
+     FLASH    (rx)    : ORIGIN = 0x08000000 + _flash_offset,   LENGTH = 128K - _flash_offset
+
+ * The exception vector table may be setup by a bootloader or by an application.
+ * To do the setup in the app, define VECTABLE_SETUP_BY_APP symbol
+ * before including this file in the application and the bootloader.
+ * Different linker script setup is required for these two cases - read the relevant comments below.
  */
 
 #ifndef CM_BOOT_H_
 #define CM_BOOT_H_
 
 #ifdef __CORTEX_M
+/*
+ * Optional boot flag at the start of RAM; if used:
+ * - must be defined in the bootloader AND the app as
+ *
+   __attribute__((section(".ram_boot_flag"))) volatile uint32_t boot_flag;
 
+ * - .ram_boot_flag input section definition must be added to the linker scripts, as described below
+ *
+ * (Placing the boot flag at the start of RAM rather that at the end makes the binary code portable
+ * between similar MCUs with different RAM sizes.)
+ */
+extern volatile uint32_t boot_flag;
+
+/*
+ * Utility functions for disabling interrupt sources. With a proper arrangement,
+ * when starting the app and the bootloader in a clean environment right out of MCU reset,
+ * these should not be needed.
+ */
 #define NELEMSOF(a)	(sizeof (a) / sizeof ((a)[0]))
 
 static inline void disable_all_ints(void)
@@ -49,11 +81,14 @@ struct cm_init_ {
 };
 
 #if __CORTEX_M > 1
+
+// ensure that __VTOR_PRESENT symbol is defined for Cortex-M cores supporting VTOR
 #ifndef __VTOR_PRESENT
 // the symbol may or may not be defined in core header, so define it here
 #define __VTOR_PRESENT	1u
 #endif
-// if the size of vector table below is needed by the application,
+
+// if the size of vector table declared below is needed by the application,
 // define NVIC_IRQs before including this header
 #ifndef NVIC_IRQs
 #define NVIC_IRQs
@@ -80,7 +115,7 @@ struct cm_vectable_ {
     void (*NVIC_Interrupt[NVIC_IRQs])(void);
 };
 
-extern struct cm_vectable_ g_pfnVectors;
+extern struct cm_vectable_ g_pfnVectors;	// defined in startup module
 
 #else	// Cortex-M0 -> 32 NVIC interrupts available
 // if less than 32 NVIC interrupts are implemented and used in the application,
@@ -103,29 +138,70 @@ struct cm0_vectable_ {
     void (*NVIC_Interrupt[NVIC_IRQs])(void);
 };
 
-extern struct cm0_vectable_ g_pfnVectors;
-extern struct cm0_vectable_ ram_vectable;
+extern struct cm0_vectable_ g_pfnVectors;	// vector table in Flash, defined in startup module
+extern struct cm0_vectable_ ram_vectable;	// usually needed if VTOR register not present
 #endif
+
+#ifdef __VTOR_PRESENT
+
+#ifdef VECTABLE_SETUP_BY_APP
+
+// If VTOR is present, call this function at the very start of application's main() function.
+// This will fix the possibly incorrect setting contained in SystemInit().
+static inline void vectable_setup_by_app(void)
+{
+	SCB->VTOR = &g_pfnVectors;
+}
+
+#else	// vector table setup by bootloader
 
 static inline void vectable_setup(uint32_t addr)
 {
 	// at this point all interrupts must be disabled (NVIC, SysTick)
-#ifdef __VTOR_PRESENT
 	SCB->VTOR = addr;
-#else	// Cortex-M0
-	/* Put the definition of ram_vectable in a .c source file of the bootloader AND the application:
-	    __attribute__((section(".ram_isr_vector"))) struct cm0_vectable_ ram_vectable;
-	 *
-	 * In the bootloader's AND application's linker script files, put the output section def BEFORE .data section:
+}
+
+#endif // VECTABLE_SETUP_BY_APP
+
+#else	// VTOR register not present (STM32F0 series)
+/*
+ * Vector table setup done by the bootloader for MCUs without VTOR:
+ *
+ * 1. Put the definition of ram_vectable in a .c source file of the bootloader AND the application:
+
+	  __attribute__((section(".ram_isr_vector"))) struct cm0_vectable_ ram_vectable;
+
+	  (The definition in the bootloader is needed only for ensuring the proper placement of boot_flag in RAM.)
+
+ * 2. Modify the bootloader's and application's linker script:
+ *  - put the following output section definition BEFORE _sidata symbol definition preceding the .data section:
+ *
 	  .ram_start_noinit (NOLOAD):
 	  {
 		KEEP(*(.ram_isr_vector))
-		KEEP(*(.ram_start_noinit))
+		KEEP(*(.ram_boot_flag))
 	  } >RAM
-	 */
-	ram_vectable = *(const struct cm0_vectable_ *)addr;	// copy vectors to start of RAM
-#endif
+ *
+ */
+
+#ifdef VECTABLE_SETUP_BY_APP
+
+static inline void vectable_setup_by_app(void)
+{
+	ram_vectable = g_pfnVectors;	// copy vectors from Flash to the start of RAM
 }
+
+#else	// vector table setup by bootloader
+
+static inline void vectable_setup(uint32_t addr)
+{
+	ram_vectable = *(const struct cm0_vectable_ *)addr;	// copy vectors from Flash to the start of RAM
+}
+
+#endif // VECTABLE_SETUP_BY_APP
+
+#endif // __VTOR_PRESENT
+
 
 // Set Stack Pointer and start ResetHandler - may be used for starting any code, including the built-in vendor bootloader
 static inline void app_start(uint32_t addr)
@@ -146,14 +222,16 @@ static inline void app_start(uint32_t addr)
 //	for (;;) ;
 }
 
-// 2-in-1 for starting any user code - app or bootloder
+// 2-in-1 for starting any code from the bootloader
 static inline void app_invoke(uint32_t addr)
 {
+#ifndef VECTABLE_SETUP_BY_APP
 	vectable_setup(addr);
+#endif
 	app_start(addr);
 }
 
-#else
+#else	// __CORTEX_M symbol not defined
 #error MCU header file must be included before cm_boot.h
 #endif
 

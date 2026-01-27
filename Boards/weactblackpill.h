@@ -1,0 +1,37 @@
+/*
+	Weact BlackPill Board defs
+	docs: https://github.com/WeActStudio/WeActStudio.MiniSTM32F4x1
+	docs: https://github.com/WeActStudio/WeActStudio.STM32H523CoreBoard
+	gbm 2019..2026
+*/
+#ifndef WEACTBP_H_
+#define WEACTBP_H_
+
+#define BOARDNAME	"BlackPill"
+// Clock =================================================================
+#define RCC_CR_HSESEL	RCC_CR_HSEON
+// Button - v1.3 and above ===============================================
+// active low, requires pullup
+#define BTN_PORT	GPIOA
+#define BTN_BIT		0
+#define BTN_MSK	(1u << BTN_BIT)
+#define BTN_PULL	GPIO_PUPDR_PU
+#define BTN_DOWN	(~BTN_PORT->IDR & 1u << BTN_BIT)
+// LED ===================================================================
+#define LED_PORT	GPIOC
+#define LED_BIT	13	// active LOW
+#define LED_ACTIVE_LEVEL	0
+#define LED_MSK	(1u << LED_BIT)
+#define LED_ON	(LED_PORT->BSRR = LED_MSK << 16)
+#define LED_OFF	(LED_PORT->BSRR = LED_MSK)
+// SPI Flash =============================================================
+// PA4, 5, 6, 7 - NSS, SCK, MISO, MOSI
+#define FLASH_NSS_PORT	GPIOA
+#define FLASH_NSS_BIT	4
+#define FLASH_SPI	SPI1
+#define	FLASH_SPI_RX_DMACH DMA1_Channel2
+#define	FLASH_SPI_TX_DMACH DMA1_Channel3
+#define FLASH_NSS_MSK	(1u << NSS_BIT)
+// UARTS: 1 - PA9/PA10, 2 - PA2/PA3
+//========================================================================
+#endif

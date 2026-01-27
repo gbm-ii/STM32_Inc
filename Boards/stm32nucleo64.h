@@ -26,11 +26,13 @@
 #define LEDG_PORT		GPIOA
 #define LEDG_BIT	5
 #define LEDG_MSK	(1u << LED_BIT)
+#define LEDG_ACTIVE_LEVEL 1
 #define LEDG_DUTY	TIM2->CCR1	// may not be supported by all MCUs
 
 #define LED_PORT		LEDG_PORT
 #define LED_BIT	LEDG_BIT
 #define LED_MSK	LEDG_MSK
+#define LED_ACTIVE_LEVEL LEDG_ACTIVE_LEVEL
 #define LED_DUTY	LEDG_DUTY
 
 #ifdef STM32C071xx
@@ -38,6 +40,7 @@
 #define LEDB_PORT		GPIOC
 #define LEDB_BIT	9
 #define LEDB_MSK	(1u << LEDB_BIT)
+#define LEDB_ACTIVE_LEVEL 0
 //#define LEDB_DUTY	TIM3->CCR4	// also TIM1_CH2
 //#define AFN_LEDB_TIM	1u	// TIM3
 
@@ -80,12 +83,15 @@
 #ifdef STM32C0
 #define HSE_FREQ	48000000u
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON)	// crystal
+
 #elif defined(STM32H5) || defined(STM32G4)
 #define HSE_FREQ	24000000u
 #define HSE_VALUE	24000000u
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON)	// crystal
+
 #elif defined(STM32L4) || defined(STM32U3)
 // no HSE connection by default! (use MSI synchronized to LSE)
+
 #else
 // other, "standard" boards - 8 MHz clock from ST-Link - set HSE_BYPASS
 #define HSE_FREQ	8000000u
