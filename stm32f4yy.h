@@ -11,7 +11,14 @@
 #include "stm32f4xx.h"
 #include "stm32yyyy.h"	// add defs common to STM32 family
 
-#define BOOT_ADDR	0x1fff0000
+#if defined(STM32F413xx) || defined(STM32F423xx)
+#define SYSROM_BASE	0x1ff00000
+#else
+#define SYSROM_BASE	0x1fff0000
+#endif
+
+#define BOOT_ADDR	SYSROM_BASE	// deprecated, for backward compatibility only
+
 #define FLASH_PAGE_SIZE	0x4000	// min. page size
 
 #define FLASH_CR_SNBV(v)	((v) << FLASH_CR_SNB_Pos & FLASH_CR_SNB_Msk)
@@ -40,7 +47,7 @@
 #define GPIO_OSPEEDR_HI		2u
 #define GPIO_OSPEEDR_VHI	3u
 
-#define GPIOA_MODER_DEFAULT	0xa8000000	// value speified in RefMan is incorrect!
+#define GPIOA_MODER_DEFAULT	0xa8000000	// value specified in RefMan is incorrect!
 #define GPIOA_OSPEEDR_DEFAULT	0x0c000000
 #define GPIOB_MODER_DEFAULT	0x0280
 #define GPIOB_OSPEEDR_DEFAULT	0xc0

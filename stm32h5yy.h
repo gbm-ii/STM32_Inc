@@ -17,10 +17,12 @@
 #define	FLASH_FKEY2	0xCDEF89AB
 
 #ifdef STM32H503xx
-#define BOOT_ADDR	0x0BF87000
+#define SYSROM_BASE	0x0BF87000
 #else
-#define BOOT_ADDR	0x0BF97000
+#define SYSROM_BASE	0x0BF97000
 #endif
+
+#define BOOT_ADDR	SYSROM_BASE	// deprecated, for backward compatibility only
 
 // Default clock after reset
 	// initial MCU clock after reset is HSI divided by 2 -> 32 MHz

@@ -16,7 +16,8 @@
 
 #define FLASH_END	FLASH_BANK1_END
 
-#define BOOT_ADDR	0x1ffff000
+#define SYSROM_BASE	0x1fff0000
+#define BOOT_ADDR	SYSROM_BASE	// deprecated, for backward compatibility only
 
 #ifndef	HSI_VALUE
 #define	HSI_VALUE	8000000u
