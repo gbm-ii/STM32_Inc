@@ -31,12 +31,11 @@
 
 #if defined STM32F042x6
 #define SYSROM_BASE 0x1fffc400u
-#define BOOT_ADDR 0x1fffc400u
 #endif
 #if defined STM32F072xB
 #define SYSROM_BASE 0x1fffc800u
-#define BOOT_ADDR 0x1fffc800u
 #endif
+#define BOOT_ADDR SYSROM_BASE
 
 #define BOOTVEC ((union vectab_ *)BOOT_ADDR)
 
