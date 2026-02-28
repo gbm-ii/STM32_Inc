@@ -53,7 +53,7 @@
 #define IOENR	AHB2ENR	// IO port enable register alias
 #define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHB2ENR_GPIOAEN) << (idx) )
 
-enum afn_ {AFN_TIM1 = 1, AFN_USB = 10, AFN_OCTOSPI = 10, AFN_TIM15_17 = 14};
+enum afn_ {AFN_TIM1 = 1, AFN_USART2 = 3, AFN_SPI1 = 5, AFN_SPI3, AFN_USART, AFN_USB = 10, AFN_OCTOSPI = 10, AFN_TIM15_17 = 14};
 
 #define  PWR_CR2_PLSV(a)	(((a) & 7) << 1)     /*!< Bit 0 */
 
