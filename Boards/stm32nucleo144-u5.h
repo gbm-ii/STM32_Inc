@@ -34,10 +34,16 @@
 #define LEDB_DUTY	TIM17->CCR1	// CH1N
 //#define LEDR_DUTY	TIM15->CCR1	// CH1
 
+#define LED_PORT	LEDG_PORT
+#define LED_BIT	LEDG_BIT
+#define LED_MSK	LEDG_MSK
+#define LED_ACTIVE_LEVEL	1
+
 #define BTN_PORT	GPIOC
 #define BTN_BIT	13
 
 #define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)
+#define BTN_PULL	GPIO_PUPDR_PD
 
 // GPIOA USART1 pins - ST-Link VCP
 #define VCP_UART	USART1

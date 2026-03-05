@@ -23,6 +23,7 @@ typedef __IO uint32_t * __IO32p;	// short type name
 #define GPIO_SPACING	((uint8_t *)GPIOB - (uint8_t *)GPIOA)
 #define GPIOBYIDX(idx) ((GPIO_TypeDef *)((uint8_t *)GPIOA +  GPIO_SPACING * (idx)))
 #define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / GPIO_SPACING)
+#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_IOENR_GPIOAEN) << (idx) )
 #define RCC_IOENR_GPIOEN(p) ( RCC_IOENR_GPIOENBIT(GPIOIDX(p)) )
 
 #define GPIO_MODER_IN	0u

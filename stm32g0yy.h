@@ -28,7 +28,8 @@
 #define ADCH_VREFINT	13u
 #define ADCH_VBAT3	14u
 
-#define BOOT_ADDR	0x1fff0000	// System ROM bootloader
+#define SYSROM_BASE	0x1fff0000	// System ROM bootloader
+#define BOOT_ADDR	SYSROM_BASE	// deprecated, for backward compatibility only
 
 // Calibration values stored in ROM
 #define VREFINT_CAL_mV	3000u	// calibration voltage
@@ -83,7 +84,8 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1_2, AFN_USART6,
 	AFN_I2C, AFN_SPI3_TIM4, AFN_LPUART2};
 // RCC GPIO enable =======================================================
 #define IOENR	IOPENR	// IO port enable register alias
-#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_IOPENR_GPIOAEN) << (idx) )
+#define RCC_IOENR_GPIOAEN	RCC_IOPENR_GPIOAEN
+//#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_IOPENR_GPIOAEN) << (idx) )
 
 // RCC =============================================================================
 #define RCC_PLLCFGR_PLLMV(x) (((x) - 1u) << RCC_PLLCFGR_PLLM_Pos & RCC_PLLCFGR_PLLM)

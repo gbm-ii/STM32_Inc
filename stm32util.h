@@ -1,6 +1,6 @@
 /*
 	some useful defs for STM32
-	gbm 11'2015..12'2025
+	gbm 11'2015..03'2026
 */
 #ifndef __STM32UTIL_H
 #define __STM32UTIL_H
@@ -25,6 +25,7 @@
 #define IRQn(n)	(n##_IRQn)
 #define IRQHandler(n)	(n##_IRQHandler)
 
+//========================================================================
 // Polled delay routine, exclusive SysTick use, no interrupts ============
 static inline void SysTick_Delay(uint32_t nc)
 {
@@ -38,6 +39,7 @@ static inline void SysTick_Delay(uint32_t nc)
 	}
 	SysTick->CTRL = 0;
 }
+//========================================================================
 // UART BRR register value calculation for 16x ovesampling ===============
 static inline uint16_t BRR_value(uint32_t uart_clk, uint32_t baudrate)
 {
@@ -48,6 +50,7 @@ static inline uint16_t BRR_value(uint32_t uart_clk, uint32_t baudrate)
 		brr = 0xfff7;		// undocumented! - the maximum valid BRR value
 	return brr;
 }
+//========================================================================
 // UART BRR register value calculation for 8x ovesampling ===============
 static inline uint16_t BRR_x8value(uint32_t uart_clk, uint32_t baudrate)
 {
@@ -57,18 +60,6 @@ static inline uint16_t BRR_x8value(uint32_t uart_clk, uint32_t baudrate)
 	else if (brr > 0xeffb)
 		brr = 0xeffb;		// undocumented! - the maximum valid BRR value?
 	return (brr & 0xeff8) << 1 | (brr & 7);
-}
-// GPIO utilities ========================================================
-#ifdef IOENR	// IO enable register defined in series-specifoc header
-static inline void GPIO_PortEnable(GPIO_TypeDef *port)
-{
-	RCC->IOENR |= RCC_IOENR_GPIOEN(port);
-}
-#endif
-// STM32 optimal toggle routine for replacing broken HAL_GPIO_PinToggle()
-static inline void GPIO_PinToggle(GPIO_TypeDef *port, uint16_t mask)
-{
-	port->BSRR = mask << 16 | (~port->ODR & mask);
 }
 // TIM ===================================================================
 #ifdef TIM_SMCR_SMS_Pos

@@ -11,7 +11,7 @@
 #include "stm32yyyy.h"
 
 // ADC ===================================================================
-enum adc_smpr_ {};
+//enum adc_smpr_ {};
 #define ADC_SMPR_1_5	0u
 #define ADC_SMPR_3_5	1u
 #define ADC_SMPR_7_5	2u
@@ -74,7 +74,8 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1, AFN_TIM2,
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLASHEN)
 // RCC GPIO enable -------------------------------------------------------
 #define IOENR	IOPENR	// IO port enable register alias
-#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_IOPENR_GPIOAEN) << (idx) )
+#define RCC_IOENR_GPIOAEN	RCC_IOPENR_GPIOAEN
+//#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_IOPENR_GPIOAEN) << (idx) )
 
 // RCC->CFGR bitfields ---------------------------------------------------
 #define RCC_CFGR_SW_HSISYS	0u
@@ -82,5 +83,7 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1, AFN_TIM2,
 #define RCC_CFGR_SW_HSIUSB	2u
 #define RCC_CFGR_SW_LSI		3u
 #define RCC_CFGR_SW_LSE		4u
+
+#include "stm32util.h"
 
 #endif

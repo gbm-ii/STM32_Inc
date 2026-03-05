@@ -10,7 +10,6 @@
 
 #include <stdbool.h>
 #include "stm32u3xx.h"
-#include "stm32util.h"
 
 #ifndef FLASH_PAGE_SIZE
 #define FLASH_PAGE_SIZE	0x1000
@@ -116,5 +115,6 @@ enum gpdma_trig_ {GPDMA_TRIG_EXTI0, GPDMA_TRIG_EXTI1, GPDMA_TRIG_EXTI2, GPDMA_TR
 #define LPTIM_PRESC_128	7u
 
 #include "stm32yyyy.h"	// add defs common to STM32 family
+#include "stm32util.h"
 
 #endif

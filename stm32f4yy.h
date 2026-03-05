@@ -57,7 +57,8 @@
 #define BSRRH(p)	(((uint16_t *)&(p->BSRR))[1])	// Bit Reset Register - upper halfword of BSRR
 // RCC GPIO enable =======================================================
 #define IOENR	AHB1ENR	// RCC IO port enable register alias
-#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHB1ENR_GPIOAEN) << (idx) )
+#define RCC_IOENR_GPIOAEN	RCC_AHB1ENR_GPIOAEN
+//#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHB1ENR_GPIOAEN) << (idx) )
 
 #define PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 

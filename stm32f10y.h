@@ -28,7 +28,8 @@
 #define RCC_AHBENR_RSTVAL	(RCC_AHBENR_FLITFEN | RCC_AHBENR_SRAMEN)
 
 #define IOENR	APB2ENR
-#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_APB2ENR_IOPAEN) << (idx) )
+#define RCC_IOENR_GPIOAEN	RCC_APB2ENR_IOPAEN
+//#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_APB2ENR_IOPAEN) << (idx) )
 
 // copied from F0 header to avoid CCRx
 #ifndef DMA_CCR_EN

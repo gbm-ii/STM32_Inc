@@ -10,6 +10,7 @@
 #define BTN_BIT		2
 #define BTN_MSK		(1u << BTN_BIT)
 #define BTN_DOWN	((~BTN_PORT->IDR >> BTN_BIT & 1))
+#define BTN_PULL	GPIO_PUPDR_PU
 
 #define LEDR_PORT		GPIOB
 #define LEDR_BIT	2
@@ -26,6 +27,7 @@
 #define LED_PORT		LEDB_PORT
 #define LED_BIT	LEDB_BIT
 #define LED_MSK	(1u << LED_BIT)
+#define LED_ACTIVE_LEVEL	1
 
 #define LEDR_DUTY	LPTIM1->CCR3
 #define LEDG_DUTY	LPTIM1->CCR1

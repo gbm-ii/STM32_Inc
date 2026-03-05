@@ -30,7 +30,7 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define RCC_CFGR1_SW_PLL1	RCC_CFGR1_SW
 
 #define IOENR	AHB2ENR1	// IO port enable register alias
-#define RCC_IOENR_GPIOEN(p) ( (RCC_AHB2ENR1_GPIOAEN) << GPIOIDX(p) )
+#define RCC_IOENR_GPIOAEN	RCC_AHB2ENR1_GPIOAEN
 
 #define  PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 
