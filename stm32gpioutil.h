@@ -32,7 +32,7 @@ static inline void LED_Setup(void)
 {
 #ifdef LED_PORT
 	RCC->IOENR |= RCC_IOENR_GPIOEN(LED_PORT);
-#ifdef GPIO_CR_OPP_S	// F1 series
+#ifdef STM32F1	// F1 series
 	CRF(LED_PORT, LED_BIT) = GPIO_CR_OPP_S;
 #else	// all other series with MODER register
 	BF2F(LED_PORT->MODER, LED_BIT) = GPIO_MODER_OUT;
@@ -44,7 +44,7 @@ static inline void Btn_Setup(void)
 {
 #ifdef BTN_PORT
 	RCC->IOENR |= RCC_IOENR_GPIOEN(BTN_PORT);
-#ifdef GPIO_CR_INP	// F1 series
+#ifdef STM32F1	// F1 series
 	CRF(BTN_PORT, BTN_BIT) = GPIO_CR_INP;
 	BTN_PORT->BRR = BTN_MSK;	// pull down for BluePillPlus
 #else	// all other series with MODER register

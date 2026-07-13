@@ -93,8 +93,10 @@ enum afn_ {AFN_SYS, AFN_USART1_2, AFN_TIM1_2, AFN_USART6,
 #define RCC_PLLCFGR_PLLQV(x) (((x) - 1u) << RCC_PLLCFGR_PLLQ_Pos & RCC_PLLCFGR_PLLQ)
 #define RCC_PLLCFGR_PLLRV(x) (((x) - 1u) << RCC_PLLCFGR_PLLR_Pos & RCC_PLLCFGR_PLLR)
 
+#ifndef	RCC_CFGR_SW_PLLRCLK
 #define RCC_CFGR_SW_PLLRCLK	2u
 #define RCC_CFGR_SW_LSI		3u
+#endif
 
 #include "stm32util.h"
 
