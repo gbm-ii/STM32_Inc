@@ -16,6 +16,8 @@
 #define STM32L4PLUS
 #endif
 
+#define SYSROM_BASE	0x1FFF0000	// same for all L4, L4+
+
 #ifndef FLASH_PAGE_SIZE
 
 #ifdef STM32L4PLUS
@@ -25,6 +27,12 @@
 #endif
 
 #endif
+
+#ifndef MSI_VALUE
+#define	MSI_VALUE	4000000u
+#endif
+
+#define	INIT_HCLK_FREQ	MSI_VALUE
 
 // STM32L4x register/bit defs not present in stm32f4xx.h file
 

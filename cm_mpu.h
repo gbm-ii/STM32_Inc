@@ -24,7 +24,7 @@ static inline void MPU_disable(void)
 static inline void MPU_enable(void)
 {
 	__DMB();
-	MPU->CTRL  |= MPU_CTRL_ENABLE_Msk;
+	MPU->CTRL  |= MPU_CTRL_PRIVDEFENA_Msk | MPU_CTRL_ENABLE_Msk;
 	SCB->SHCSR |= SCB_SHCSR_MEMFAULTENA_Msk;
 	__DSB();
 	__ISB();
@@ -48,7 +48,7 @@ static inline void MPU_set_region(uint8_t region, uint32_t startaddr, uint32_t e
 	MPU->RNR = region;
 	MPU->RLAR = 0;	// disable
 	MPU->RBAR = (startaddr & MPU_RBAR_BASE_Msk) | access_rights;
-	MPU->RLAR = (endarddr & MPU_RLAR_LIMIT_Msk) | (attridx << MPU_RLAR_AttrIndx_Pos & MPU_RLAR_AttrIndx_Msk) | MPU_RLAR_EN_Msk;
+	MPU->RLAR = (endaddr & MPU_RLAR_LIMIT_Msk) | (attridx << MPU_RLAR_AttrIndx_Pos & MPU_RLAR_AttrIndx_Msk) | MPU_RLAR_EN_Msk;
 }
 
 #else	// no MPU

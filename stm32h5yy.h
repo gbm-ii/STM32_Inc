@@ -22,6 +22,9 @@
 #define SYSROM_BASE	0x0BF97000
 #endif
 
+#define OTP_BASE	0x8fff000
+#define OTP_END	0x8ffffff
+
 #define BOOT_ADDR	SYSROM_BASE	// deprecated, for backward compatibility only
 
 // Default clock after reset

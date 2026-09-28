@@ -3,9 +3,12 @@
  * gbm 02'18..04'21
  */
  
+#ifndef NUCLEO144_H_
+#define NUCLEO144_H_
+
 #include "stm32l4yy.h"
 
-#define HSE_VALUE	8000000u
+//#define HSE_VALUE	8000000u
 
 // all LEDs active HIGH
 // LD1
@@ -17,6 +20,7 @@
 // LD3
 #define LEDR_PORT	GPIOB
 #define LEDR_BIT	14
+
 // USB OTG power switch with status LED
 #define LEDU_PORT	GPIOG
 #define LEDU_BIT	6
@@ -34,7 +38,10 @@
 #define BTN_BIT	13
 
 #define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)
+#define BTN_PULL	GPIO_PUPDR_PD
 
 // GPIOG LPUART1 pins
 #define TX_BIT	7
 #define RX_BIT	8
+
+#endif
