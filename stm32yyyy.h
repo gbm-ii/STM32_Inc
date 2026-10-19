@@ -76,8 +76,8 @@ typedef __IO uint32_t * __IO32p;	// short type name
 
 #define TIM_CCMR1_OC1M_ROPM2	TIM_CCMR1_OC1MD(9)	// OC1M[3:0] - Retrig OPM mode 2
 #define TIM_CCMR1_OC2M_ROPM2	TIM_CCMR1_OC2MD(9)	// OC1M[3:0] - Retrig OPM mode 2
-#define TIM_CCMR2_OC3M_ROPM2	TIM_CCMR1_OC1M_ROPM2	// OC1M[3:0] - Retrig OPM mode 1
-#define TIM_CCMR2_OC4M_ROPM2	TIM_CCMR1_OC2M_ROPM2	// OC1M[3:0] - Retrig OPM mode 1
+#define TIM_CCMR2_OC3M_ROPM2	TIM_CCMR1_OC1M_ROPM2	// OC1M[3:0] - Retrig OPM mode 2
+#define TIM_CCMR2_OC4M_ROPM2	TIM_CCMR1_OC2M_ROPM2	// OC1M[3:0] - Retrig OPM mode 2
 
 #define TIM_CCMR1_OC1M_CPWM1	TIM_CCMR1_OC1MD(12)	// OC1M[3:0] - Combined PWM mode 1 (OR)
 #define TIM_CCMR1_OC2M_CPWM1	TIM_CCMR1_OC2MD(12)	// OC1M[3:0] - Combined PWM mode 1 (OR)

@@ -5,6 +5,8 @@
 */
 #ifndef STM32CORE_H_
 #define STM32CORE_H_
+
+#define BOARDNAME "CoreBoard"
 // Button ================================================================
 #define BTN_PORT	GPIOA
 #define BTN_BIT		8
