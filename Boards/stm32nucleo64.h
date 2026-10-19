@@ -1,6 +1,6 @@
 /*
-	STM32 Nucleo64 board defs
-	gbm 11'2015..09'2025
+	STM32 Nucleo64 and Nucleo48 board defs
+	gbm 11'2015..10'2026
 */
 #ifndef STM32NUCLEO64_H_
 #define STM32NUCLEO64_H_
@@ -16,7 +16,7 @@
 // user button active high
 #define BTN_DOWN	((BTN_PORT->IDR >> BTN_BIT & 1u))
 #define BTN_PULL	GPIO_PUPDR_PD	// defined in stm32yyyy.h
-#else	// G0B1
+#else	// G0B1, C0,
 // user button active low
 #define BTN_DOWN	((~BTN_PORT->IDR >> BTN_BIT & 1u))
 #define BTN_PULL	GPIO_PUPDR_PU	// defined in stm32yyyy.h
@@ -27,7 +27,14 @@
 #define LEDG_BIT	5
 #define LEDG_MSK	(1u << LED_BIT)
 #define LEDG_ACTIVE_LEVEL 1
+
+#ifdef STM32C031xx
+#define LEDG_TIM	TIM1
+#define LEDG_DUTY	TIM1->CCR1
+#else
+#define LEDG_TIM	TIM2
 #define LEDG_DUTY	TIM2->CCR1	// may not be supported by all MCUs
+#endif
 
 #define LED_PORT		LEDG_PORT
 #define LED_BIT	LEDG_BIT
