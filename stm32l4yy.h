@@ -40,6 +40,10 @@
 //#define FLASH_CR_PSIZEV(v)	(((v) & 3) << 8)
 //#define FLASH_CR_PSIZE32	(2 << 8)
 
+#ifndef FLASH_SR_PEMPTY
+#define FLASH_SR_PEMPTY	(1u <<17)
+#endif
+
 #define RCC_CFGR_PLLMULV(a)	(((a - 2) & 0xf) << 18)
 
 #define  RCC_PLLCFGR_PLLMV(v)	(((v - 1) & 7) << 4)	// prediv 1..8 to get 4..16 MHz PLL input
