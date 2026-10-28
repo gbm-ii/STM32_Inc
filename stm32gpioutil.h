@@ -1,11 +1,14 @@
 /*
 	Common basic GPIO port utilities for STM32
 	gbm 03'2026
+
+	Include after MCU defs file stm32<series>yy.h
 */
 #ifndef STM32GPIOUTIL_H_
 #define STM32GPIOUTIL_H_
 //========================================================================
 #include <stdbool.h>
+#include "bf_reg.h"
 // GPIO utilities ========================================================
 #ifdef IOENR	// IO enable register defined in series-specific header
 static inline void GPIO_PortEnable(GPIO_TypeDef *port)
