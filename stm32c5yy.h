@@ -34,8 +34,9 @@
 #define VREFINT_CAL	(*(const uint16_t *)0x08fff810)
 
 #define TS_CAL1_T 30
+#define TS_CAL2_T 140
 #define TS_CAL1	(*(const uint16_t *)0x08fff814)	// at 30 C
-#define TS_CAL2	(*(const uint16_t *)0x08fff818)	// at 30 C
+#define TS_CAL2	(*(const uint16_t *)0x08fff818)	// at 140 C
 // DMAMUX ================================================================
 enum dma_reqsel_ {
 	DMA_REQ_ADC1, DMA_REQ_ADC2,
