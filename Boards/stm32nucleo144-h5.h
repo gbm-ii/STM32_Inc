@@ -5,7 +5,8 @@
 
 #ifndef NUCLEO144_H_
 #define NUCLEO144_H_
-//#include "stm32h5yy.h"
+
+#include "stm32h5yy.h"
 
 #ifdef STM32H5E5xx
 // Nucleo-H5E5ZI
@@ -36,32 +37,34 @@
 // LD3
 #define LEDR_PORT	GPIOG
 #define LEDR_BIT	4
-// USB OTG power switch with status LED
-//#define LEDU_PORT	GPIOG
-//#define LEDU_BIT	6
+
 // GPIOB LPUART1 pins - Arduino D0, D1
 #define ATX_BIT	6
 #define ARX_BIT	7
-
 #endif
 
 #define LEDG_MSK	(1u << LEDG_BIT)
 #define LEDR_MSK	(1u << LEDR_BIT)
-//#define LEDU_MSK	(1u << LEDU_BIT)
+
+#define LED_PORT	LEDG_PORT
+#define LED_BIT	LEDG_BIT
+#define LED_MSK	LEDG_MSK
+#define LED_ACTIVE_LEVEL	1
 
 //#define LEDG_DUTY	TIM3->CCR2	// or TIM8->CCR2
 //#define LEDB_DUTY	TIM17->CCR1	// CH1N
 //#define LEDR_DUTY	TIM15->CCR1	// CH1
 
-// Blue User button
+// Blue User button active high
 #define BTN_PORT	GPIOC
 #define BTN_BIT	13
 #define BTN_DOWN	(BTN_PORT->IDR >> BTN_BIT & 1)
+#define BTN_PULL	GPIO_PUPDR_PD
 
 // GPIOD USART1 pins - ST-Link VCP
-#define VCP_PORT GPIOD
-#define TX_BIT	8
-#define RX_BIT	9
-#define VCP_UART	USART3
+#define STLINK_VCP_UART	USART3
+#define STLINK_VCP_PORT GPIOD
+#define STLINK_VCP_TX_BIT	8
+#define STLINK_VCP_RX_BIT	9
 
 #endif // NUCLEO144_H

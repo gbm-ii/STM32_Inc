@@ -59,28 +59,28 @@
 #endif	// C071
 
 // VCP UART
-#define VCP_PORT	GPIOA	// All N64 boards
+#define STLINK_VCP_PORT	GPIOA	// All N64 boards
 
 #if defined(STM32U3) || defined(STM32U5)
-#define VCP_TX_BIT	9
-#define VCP_RX_BIT	10
-#define VCP_UART	USART1
+#define STLINK_VCP_TX_BIT	9
+#define STLINK_VCP_RX_BIT	10
+#define STLINK_VCP_UART	USART1
 
 #else
-#define VCP_RX_BIT	3
+#define STLINK_VCP_RX_BIT	3
 
 #ifdef STM32H503xx
 // H503 only, H533 uses standard PA2, PA3, USART2
-#define VCP_TX_BIT	4
-#define VCP_UART	USART3
+#define STLINK_VCP_TX_BIT	4
+#define STLINK_VCP_UART	USART3
 
 #else	// all except U545, H503
-#define VCP_TX_BIT	2
+#define STLINK_VCP_TX_BIT	2
 
 #if defined(STM32G4)
-#define VCP_UART	LPUART1
+#define STLINK_VCP_UART	LPUART1
 #else
-#define VCP_UART	USART2
+#define STLINK_VCP_UART	USART2
 #endif
 
 #endif	// H503
