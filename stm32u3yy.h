@@ -11,11 +11,14 @@
 #include <stdbool.h>
 #include "stm32u3xx.h"
 
+// The default clock after reset is MSIS @ 12 MHz
+#define	INIT_HCLK_FREQ	12000000u
+
+// SysTick clk is HCLK / 8 !
+
 #ifndef FLASH_PAGE_SIZE
 #define FLASH_PAGE_SIZE	0x1000
 #endif
-#define	FLASH_FKEY1	0x45670123
-#define	FLASH_FKEY2	0xCDEF89AB
 
 // Vcore range 1 required for 96 MHz opeeration
 
@@ -25,6 +28,10 @@
 #define GPIO_OSPEEDR_HI	2u		// 80 MHz
 #define GPIO_OSPEEDR_VHI	3u	// 80 MHz, same as HI
 
+#define IOENR	AHB2ENR1	// IO port enable register alias
+#define RCC_IOENR_GPIOAEN	RCC_AHB2ENR1_GPIOAEN
+
+#if 0	// the rest is copied from h5 -> verify
 enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 	AFN_USART1_2, AFN_SPI1, AFN_SPI2, AFN_SPI23_UART,
 	AFN_I2C2, AFN_USART23, AFN_USB, AFN_I2C1,
@@ -34,11 +41,6 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define	RCC_PLLxCFGR_PLLxSRC_HSE	RCC_PLL1CFGR_PLL1SRC
 
 #define RCC_CFGR1_SW_PLL1	RCC_CFGR1_SW
-
-#define IOENR	AHB2ENR1	// IO port enable register alias
-
-#define GPIOIDX(p)	(((uint8_t *)(p) - (uint8_t *)GPIOA) / ((uint8_t *)GPIOB - (uint8_t *)GPIOA))
-#define RCC_IOENR_GPIOEN(p) ( (RCC_AHB2ENR1_GPIOAEN) << GPIOIDX(p) )
 
 #define PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
 
@@ -78,7 +80,6 @@ enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
 #define ADC_CCR_PRESC_DIV32	8u
 #define ADC_CCR_PRESC_DIV64	9u
 
-// The default clock after reset is MSIS @ 12 MHz
 #ifndef HSI_VALUE
 #define HSI_VALUE	16000000u
 #endif
@@ -113,6 +114,7 @@ enum gpdma_trig_ {GPDMA_TRIG_EXTI0, GPDMA_TRIG_EXTI1, GPDMA_TRIG_EXTI2, GPDMA_TR
 
 #define LPTIM_PRESC_64	6u
 #define LPTIM_PRESC_128	7u
+#endif
 
 #include "stm32yyyy.h"	// add defs common to STM32 family
 #include "stm32util.h"

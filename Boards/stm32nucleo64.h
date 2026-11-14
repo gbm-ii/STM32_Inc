@@ -1,18 +1,18 @@
 /*
 	STM32 Nucleo64 and Nucleo48 board defs
-	gbm 11'2015..10'2026
+	gbm 11'2015..11'2026
 */
 #ifndef STM32NUCLEO64_H_
 #define STM32NUCLEO64_H_
 
 // MCU header should be included BEFORE this file, so that MCU type and family symbols are defined
-//========================================================================
-// user button - blue
+
+// User button - blue ====================================================
 #define BTN_PORT	GPIOC
 #define BTN_BIT		13
 #define BTN_MSK		(1u << BTN_BIT)
 
-#if defined(STM32G4) || defined(STM32H5) || defined(STM32U3) || defined(STM32U5)
+#if defined(STM32G4) || defined(STM32H5) || defined(STM32U3) || defined(STM32U5) || defined(STM32C5)  || defined(STM32G5)
 // user button active high
 #define BTN_DOWN	((BTN_PORT->IDR >> BTN_BIT & 1u))
 #define BTN_PULL	GPIO_PUPDR_PD	// defined in stm32yyyy.h
@@ -22,26 +22,37 @@
 #define BTN_PULL	GPIO_PUPDR_PU	// defined in stm32yyyy.h
 #endif
 
-// green LED, active high - PA5 on all boards
+// green LED, active high ============================
+#ifdef STM32G5	// G564 - PG3, TIM2CH4N
+#define LEDG_PORT		GPIOG
+#define LEDG_BIT	3
+#define LEDG_TIM	TIM20
+#define LEDG_DUTY	TIM20->CCR4
+#else	// PA5 on almost all boards
 #define LEDG_PORT		GPIOA
 #define LEDG_BIT	5
-#define LEDG_MSK	(1u << LED_BIT)
-#define LEDG_ACTIVE_LEVEL 1
 
 #ifdef STM32C031xx
 #define LEDG_TIM	TIM1
 #define LEDG_DUTY	TIM1->CCR1
-#else
+#else	// all others
 #define LEDG_TIM	TIM2
 #define LEDG_DUTY	TIM2->CCR1	// may not be supported by all MCUs
 #endif
+
+#endif
+
+#define LEDG_MSK	(1u << LED_BIT)
+#define LEDG_ACTIVE_LEVEL 1
 
 #define LED_PORT		LEDG_PORT
 #define LED_BIT	LEDG_BIT
 #define LED_MSK	LEDG_MSK
 #define LED_ACTIVE_LEVEL LEDG_ACTIVE_LEVEL
+#define LED_TIM	LEDG_TIM
 #define LED_DUTY	LEDG_DUTY
 
+// Other LED =============================================================
 #ifdef STM32C071xx
 // blue LED, active low - PC9 on Nucleo-C071
 #define LEDB_PORT		GPIOC
@@ -51,14 +62,22 @@
 //#define LEDB_DUTY	TIM3->CCR4	// also TIM1_CH2
 //#define AFN_LEDB_TIM	1u	// TIM3
 
+//========================================================================
 // BOOT button (small black), may be used as 2nd user button, active high
 #define BOOT_PORT	GPIOA
 #define BOOT_BIT	14
-#define BOOT_MSK	(1u << 14)
+#define BOOT_MSK	(1u << BOOT_BIT)
 #define BOOT_DOWN	((BOOT_PORT->IDR >> BTN_BIT & 1u))
 #endif	// C071
 
-// VCP UART
+#ifdef STM32C5
+#define BOOT_PORT	GPIOH
+#define BOOT_BIT	2
+#define BOOT_MSK	(1u << BOOT_BIT)
+#define BOOT_DOWN	((BOOT_PORT->IDR >> BTN_BIT & 1u))
+#endif
+
+// VCP UART ==============================================================
 #define STLINK_VCP_PORT	GPIOA	// All N64 boards
 
 #if defined(STM32U3) || defined(STM32U5)
@@ -66,7 +85,7 @@
 #define STLINK_VCP_RX_BIT	10
 #define STLINK_VCP_UART	USART1
 
-#else
+#else	// all other Nucleo64
 #define STLINK_VCP_RX_BIT	3
 
 #ifdef STM32H503xx
@@ -74,29 +93,31 @@
 #define STLINK_VCP_TX_BIT	4
 #define STLINK_VCP_UART	USART3
 
-#else	// all except U545, H503
+#else	// all Nucleo64 except U3, U545, H503
 #define STLINK_VCP_TX_BIT	2
 
 #if defined(STM32G4)
 #define STLINK_VCP_UART	LPUART1
-#else
+#else	// most of boards
 #define STLINK_VCP_UART	USART2
 #endif
 
 #endif	// H503
 #endif	// U5
 
-// HSE clock source
+// HSE clock source ======================================================
 #ifdef STM32C0
+// C031 and C071 - 48 MHz crystal
 #define HSE_FREQ	48000000u
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON)	// crystal
 
-#elif defined(STM32H5) || defined(STM32G4)
+#elif defined(STM32H5) || defined(STM32G4) || defined(STM32C5) || defined(STM32G5)
+// 25 MHz crystal
 #define HSE_FREQ	24000000u
 #define HSE_VALUE	24000000u
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON)	// crystal
 
-#elif defined(STM32L4) || defined(STM32U3)
+#elif defined(STM32L4) || defined(STM32U3) || defined(STM32U5)
 // no HSE connection by default! (use MSI synchronized to LSE)
 
 #else
@@ -105,4 +126,5 @@
 #define RCC_CR_HSE_ON	(RCC_CR_HSEON | RCC_CR_HSEBYP)
 #endif
 //========================================================================
-#endif
+
+#endif	// included
