@@ -32,7 +32,9 @@
 enum afn_ {AFN_TIM1 = 1, AFN_I2C = 4, AFN_SPI, AFN_SPI3, AFN_USART = 7,
 	AFN_UART4, AFN_USB = 10};
 
-#define RCC_IOENR_GPIOENBIT(idx) ( (RCC_AHB2ENR_GPIOAEN) << (idx) )
+// RCC GPIO enable =======================================================
+#define IOENR	AHB2ENR	// IO port enable register alias
+#define RCC_IOENR_GPIOAEN	RCC_AHB2ENR_GPIOAEN
 
 #define GPIOA_MODER_DEFAULT	0xabffffff	// ok, not needed
 #define GPIOA_OSPEEDR_DEFAULT	0x0c000000	// ok
