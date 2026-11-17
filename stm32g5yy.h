@@ -1,0 +1,140 @@
+/*
+	STM32H5 series enhanced defs
+	gbm 11'2026
+
+	To be included instead of the original stm32h5xx.h.
+*/
+
+#ifndef __STM32G5YY_H
+#define __STM32G5YY_H
+
+#include <stdbool.h>
+#include "stm32g5xx.h"
+
+// Flash parameters
+
+#define SYSROM_BASE	 0x0BFA2C00
+#define OTP_BASE	0x8fff000
+#define OTP_END	0x8ffffff
+
+// Default clock after reset is HSI @64 MHz
+#ifndef HSI_VALUE
+#define HSI_VALUE	64000000u
+#endif
+
+#define	INIT_HCLK_FREQ	HSI_VALUE
+// GPIO =====================================================================
+// STM32H5x register/bit defs not present in stm32g5xx.h file
+#define GPIO_OSPEEDR_LO	0	// 8 MHz
+#define GPIO_OSPEEDR_MED	1u		// 40 MHz
+#define GPIO_OSPEEDR_HI	2u		// 80 MHz
+#define GPIO_OSPEEDR_VHI	3u	// 100 MHz
+
+enum afn_ {AFN_SYS, AFN_TIM1_2, AFN_LPTIM1_TIM3, AFN_LPTIM2,
+	AFN_USART1_2, AFN_SPI1, AFN_SPI3, AFN_SPI23_UART,
+	AFN_TIM3, AFN_TIM1, AFN_TIM2, AFN_HRTIM,
+	AFN_USBPD, AFN_COMP, AFN_PLAY, AFN_EVT};
+
+// RCC ======================================================================
+#define	RCC_PLLxCFGR_PLLxSRC_HSI	RCC_PLL1CFGR_PLL1SRC_0
+#define	RCC_PLLxCFGR_PLLxSRC_HSE	RCC_PLL1CFGR_PLL1SRC
+
+#define RCC_CFGR1_SYSSW_PLL1	RCC_CFGR1_SYSSW_1
+
+#define RCC_CCIPR4_USBSEL_PLL1Q	(1u << RCC_CCIPR4_USBSEL_Pos)
+#define RCC_CCIPR4_USBSEL_PLL2Q	(2u << RCC_CCIPR4_USBSEL_Pos)
+#define RCC_CCIPR4_USBSEL_HSI48	(3u << RCC_CCIPR4_USBSEL_Pos)
+
+#define IOENR	AHB4ENR	// IO port enable register alias
+#define RCC_IOENR_GPIOAEN	RCC_AHB4ENR_GPIOAEN
+
+#define PWR_CR_PLSV(a)	(((a) & 7) << 5)     /*!< Bit 0 */
+// ADC ======================================================================
+// Calibration values stored in ROM
+#define VREFINT_mV	3300u
+#define VREFINT_CAL	(*(const uint16_t *)0x08fff810)	// @ 3.3V
+
+// System ROM locations
+#define T_CAL1	30
+#define T_CAL2	140
+#define TS_CAL1	(*(const uint16_t *)0x08fff814)	// @ 3.3V, 30 deg C
+#define TS_CAL2	(*(const uint16_t *)0x08fff818)	// @ 3.3V, 130 deg C
+
+#define ADCH_VBAT4	2u
+#define ADCH_VDDCORE	6u
+#define ADCH_VSENSE	16u
+#define ADCH_VREFINT	17u
+
+#define	ADC_SMPT_2_5	0u
+#define	ADC_SMPT_6_5	1u
+#define	ADC_SMPT_12_5	2u
+#define	ADC_SMPT_24_5	3u
+#define	ADC_SMPT_47_5	4u
+#define	ADC_SMPT_92_5	5u
+#define	ADC_SMPT_247_5	6u
+#define	ADC_SMPT_640_5	7u
+
+#define ADC_CCR_PRESC_DIV2	1u
+#define ADC_CCR_PRESC_DIV4	2u
+#define ADC_CCR_PRESC_DIV6	3u
+#define ADC_CCR_PRESC_DIV8	4u
+#define ADC_CCR_PRESC_DIV10	5u
+#define ADC_CCR_PRESC_DIV12	6u
+#define ADC_CCR_PRESC_DIV16	7u
+#define ADC_CCR_PRESC_DIV32	8u
+#define ADC_CCR_PRESC_DIV64	9u
+//===========================================================================
+
+enum gpdma_rq_ {DMARQ_ADC1, DMARQ_ADC2,
+	DMARQ_DAC1CH1, DMARQ_DAC2CH1, DMARQ_TIM6_UPD, DMARQ_TIM7_UPD,
+	DMARQ_SPI1_RX = 6, DMARQ_SPI1_TX, DMARQ_SPI2_RX, DMARQ_SPI2_TX, DMARQ_SPI3_RX, DMARQ_SPI3_TX,
+	DMARQ_I2C1_RX, DMARQ_I2C1_TX, DMARQ_R14, DMARQ_I2C2_RX, DMARQ_I2C2_TX, DMARQ_R17,
+	DMARQ_I2C3_RX, DMARQ_I2C3_TX, DMARQ_R20,
+	DMARQ_USART1_RX = 21, DMARQ_USART1_TX, DMARQ_USART2_RX, DMARQ_USART2_TX, DMARQ_USART3_RX, DMARQ_USART3_TX,
+	DMARQ_UART4_RX = 21, DMARQ_UART4_TX, DMARQ_UART5_RX, DMARQ_UART5_TX, DMARQ_UART6_RX, DMARQ_UART6_TX,
+	// HRTIM
+	DMARQ_LPUART1_RX = 45, DMARQ_LPUART1_TX,
+	DMARQ_TIM1_CC1 = 58, DMARQ_TIM1_CC2, DMARQ_TIM1_CC3, DMARQ_TIM1_CC4,
+	DMARQ_TIM1_UPD, DMARQ_TIM1_TRG, DMARQ_TIM1_COM,
+	DMARQ_TIM2_CC1 = 72, DMARQ_TIM2_CC2, DMARQ_TIM2_CC3, DMARQ_TIM2_CC4, DMARQ_TIM2_UPD, DMARQ_TIM2_TRGI,
+	DMARQ_TIM3_CC1 = 78, DMARQ_TIM3_CC2, DMARQ_TIM3_CC3, DMARQ_TIM3_CC4, DMARQ_TIM3_UPD, DMARQ_TIM3_TRGI,
+	DMARQ_TIM4_CC1, DMARQ_TIM4_CC2, DMARQ_TIM4_CC3, DMARQ_TIM4_CC4, DMARQ_TIM4_UPD, DMARQ_TIM4_TRGI,
+	DMARQ_TIM5_CC1, DMARQ_TIM5_CC2, DMARQ_TIM5_CC3, DMARQ_TIM5_CC4, DMARQ_TIM5_UPD, DMARQ_TIM5_TRGI,
+	
+	DMARQ_TIM26_UPD = 155, DMARQ_TIM27_UPD
+};
+enum gpdma_trig_ {GPDMA_TRIG_EXTI0, GPDMA_TRIG_EXTI1, GPDMA_TRIG_EXTI2, GPDMA_TRIG_EXTI3,
+	GPDMA_TRIG_EXTI4, GPDMA_TRIG_EXTI5, GPDMA_TRIG_EXTI6, GPDMA_TRIG_EXTI7,
+};
+
+#define	DMA_CFCR_ALLF	(DMA_CFCR_TOF | DMA_CFCR_SUSPF | DMA_CFCR_USEF | DMA_CFCR_ULEF | DMA_CFCR_DTEF | DMA_CFCR_HTF | DMA_CFCR_TCF)
+
+#define LPTIM_PRESC_64	6u
+#define LPTIM_PRESC_128	7u
+
+#define SPI_CFG1_MBR_DIV2	(0u << SPI_CFG1_MBR_Pos)
+#define SPI_CFG1_MBR_DIV4	(1u << SPI_CFG1_MBR_Pos)
+#define SPI_CFG1_MBR_DIV8	(2u << SPI_CFG1_MBR_Pos)
+#define SPI_CFG1_MBR_DIV16	(3u << SPI_CFG1_MBR_Pos)
+#define SPI_CFG1_MBR_DIV32	(4u << SPI_CFG1_MBR_Pos)
+#define SPI_CFG1_MBR_DIV64	(5u << SPI_CFG1_MBR_Pos)
+#define SPI_CFG1_MBR_DIV128	(6u << SPI_CFG1_MBR_Pos)
+#define SPI_CFG1_MBR_DIV256	(7u << SPI_CFG1_MBR_Pos)
+
+#define USART_PRESC_DIV1	0u
+#define USART_PRESC_DIV2	1u
+#define USART_PRESC_DIV4	2u
+#define USART_PRESC_DIV6	3u
+#define USART_PRESC_DIV8	4u
+#define USART_PRESC_DIV10	5u
+#define USART_PRESC_DIV12	6u
+#define USART_PRESC_DIV16	7u
+#define USART_PRESC_DIV32	8u
+#define USART_PRESC_DIV64	9u
+#define USART_PRESC_DIV128	10u
+#define USART_PRESC_DIV256	11u
+
+#include "stm32yyyy.h"	// add defs common to STM32 family
+#include "stm32util.h"
+
+#endif
