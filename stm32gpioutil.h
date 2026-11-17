@@ -78,5 +78,12 @@ static inline void GPIO_PinToggle(GPIO_TypeDef *port, uint16_t mask)
 	port->BSRR = mask << 16 | (~port->ODR & mask);
 }
 
+static inline void LED_Toggle(void)
+{
+#ifdef LED_PORT
+	GPIO_PinToggle(LED_PORT, LED_MSK);
+#endif
+}
+
 //========================================================================
 #endif
