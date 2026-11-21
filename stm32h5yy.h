@@ -14,7 +14,9 @@
 // Flash parameters
 #define FLASH_PAGE_SIZE	FLASH_SECTOR_SIZE
 
-#ifdef STM32H503xx
+#if defined(STM32H543xx) || defined(STM32H553xx)
+#define SYSROM_BASE	0x0BFA4000
+#elif defined(STM32H503xx)
 #define SYSROM_BASE	0x0BF87000
 #else
 #define SYSROM_BASE	0x0BF97000

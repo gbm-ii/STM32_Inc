@@ -66,13 +66,14 @@
 // BOOT button (small black), may be used as 2nd user button, active high
 #define BOOT_PORT	GPIOA
 #define BOOT_BIT	14
-#define BOOT_MSK	(1u << BOOT_BIT)
-#define BOOT_DOWN	((BOOT_PORT->IDR >> BTN_BIT & 1u))
 #endif	// C071
 
 #ifdef STM32C5
 #define BOOT_PORT	GPIOH
 #define BOOT_BIT	2
+#endif
+
+#ifdef BOOT_PORT
 #define BOOT_MSK	(1u << BOOT_BIT)
 #define BOOT_DOWN	((BOOT_PORT->IDR >> BTN_BIT & 1u))
 #endif
